@@ -84,8 +84,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         categoriesLabel.text = stringCategories
         
         durationLabel = UILabel()
-        var hours = detailsLabel.duration / 60
-        var minutes = detailsLabel.duration - hours*60
+        let hours = detailsLabel.duration / 60
+        let minutes = detailsLabel.duration - hours*60
         durationLabel.text = String(hours) + "h " + String(minutes) + "m"
         
         dateLabel = UILabel()
