@@ -1,6 +1,5 @@
 
 import UIKit
-import Foundation
 import PureLayout
 
 class LogInViewController: UIViewController {
