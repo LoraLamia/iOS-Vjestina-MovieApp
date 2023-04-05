@@ -16,7 +16,6 @@
 		8C2C7C0F29D4A4AE00700118 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C7C0E29D4A4AE00700118 /* LogInViewController.swift */; };
 		8CF3537429DD66C00076BBBE /* MovieListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF3537329DD66C00076BBBE /* MovieListViewController.swift */; };
 		8CF3537629DD6C820076BBBE /* MovieListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF3537529DD6C820076BBBE /* MovieListTableViewCell.swift */; };
-		8CF3537829DDE2640076BBBE /* MovieApp in Resources */ = {isa = PBXBuildFile; fileRef = 8CF3537729DDE2640076BBBE /* MovieApp */; };
 		8CF3537B29DDE2850076BBBE /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 8CF3537A29DDE2850076BBBE /* Kingfisher */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +29,6 @@
 		8C2C7C0E29D4A4AE00700118 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		8CF3537329DD66C00076BBBE /* MovieListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListViewController.swift; sourceTree = "<group>"; };
 		8CF3537529DD6C820076BBBE /* MovieListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieListTableViewCell.swift; sourceTree = "<group>"; };
-		8CF3537729DDE2640076BBBE /* MovieApp */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MovieApp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +49,6 @@
 			isa = PBXGroup;
 			children = (
 				8C2C7BF129D4975A00700118 /* MovieApp */,
-				8CF3537729DDE2640076BBBE /* MovieApp */,
 				8C2C7BF029D4975A00700118 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -149,7 +146,6 @@
 			files = (
 				8C2C7BFF29D4975B00700118 /* LaunchScreen.storyboard in Resources */,
 				8C2C7BFC29D4975B00700118 /* Assets.xcassets in Resources */,
-				8CF3537829DDE2640076BBBE /* MovieApp in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
