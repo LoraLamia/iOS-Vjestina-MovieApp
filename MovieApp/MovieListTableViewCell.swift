@@ -57,6 +57,8 @@ class MovieListTableViewCell: UITableViewCell {
         movieImageView.autoPinEdge(toSuperviewEdge: .top)
         movieImageView.autoPinEdge(toSuperviewEdge: .bottom)
         movieImageView.autoSetDimension(.width, toSize: 97)
+        movieImageView.layer.cornerRadius = 10
+        movieImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         
         movieTitleLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 12)
         movieTitleLabel.autoPinEdge(.leading, to: .trailing, of: movieImageView, withOffset: 16)
@@ -70,8 +72,11 @@ class MovieListTableViewCell: UITableViewCell {
         movieDescriptionLabel.numberOfLines = 0
         
         containerView.layer.cornerRadius = 10
-        containerView.layer.masksToBounds = true
-        
+        containerView.layer.shadowColor = UIColor.black.cgColor
+        containerView.layer.shadowOpacity = 0.1
+        containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        containerView.layer.shadowRadius = 2
+        self.selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -84,6 +89,14 @@ class MovieListTableViewCell: UITableViewCell {
         self.movieDescriptionLabel.text = description
         self.movieDescriptionLabel.font = UIFont.systemFont(ofSize: 14)
         self.movieDescriptionLabel.textColor = UIColor(red: 130/255, green: 130/255, blue: 130/255, alpha: 1)
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        movieTitleLabel.text = nil
+        movieDescriptionLabel.text = nil
+        movieImageView.image = nil
         
     }
 
