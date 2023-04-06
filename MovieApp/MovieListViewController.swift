@@ -2,6 +2,7 @@
 import UIKit
 import PureLayout
 import MovieAppData
+import Kingfisher
 
 class MovieListViewController: UIViewController, UITableViewDelegate {
     
@@ -43,6 +44,8 @@ extension MovieListViewController: UITableViewDataSource {
         let cell = movieListTableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as! MovieListTableViewCell
         let movies = MovieUseCase().allMovies
         cell.configure(title: movies[indexPath.row].name, description: movies[indexPath.row].summary)
+        
+        KF.url(URL(string: movies[indexPath.row].imageUrl)).set(to: cell.movieImageView)
         return cell
     }
 

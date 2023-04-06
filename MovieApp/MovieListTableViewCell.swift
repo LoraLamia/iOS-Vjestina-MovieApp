@@ -6,7 +6,7 @@ class MovieListTableViewCell: UITableViewCell {
     
     static let identifier = "MovieListTableViewCell"
     
-    private var movieImageView: UIImageView = {
+    var movieImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "test")
         imageView.contentMode = .scaleAspectFill
