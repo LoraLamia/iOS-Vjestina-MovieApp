@@ -18,6 +18,7 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
         categoriesTableView.dataSource = self
         categoriesTableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: CollectionTableViewCell.identifier)
         categoriesTableView.autoPinEdgesToSuperviewEdges()
+        categoriesTableView.separatorStyle = .none
 
     }
 }

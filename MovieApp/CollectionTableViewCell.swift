@@ -13,32 +13,18 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize = CGSize(width: 122, height: 179)
-        collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: flowLayout)
+        collectionViewSetUp()
+        
         contentView.addSubview(categoryLabel)
         contentView.addSubview(collectionView)
         
-        categoryLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
-        categoryLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        
-        collectionView.autoPinEdge(.top, to: .bottom, of: categoryLabel, withOffset: 16)
-        collectionView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 20)
-        collectionView.autoPinEdge(toSuperviewEdge: .leading)
-        collectionView.autoPinEdge(toSuperviewEdge: .trailing)
-        collectionView.autoSetDimension(.height, toSize: 179)
-        
-        collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
-        collectionView.dataSource = self
+        layout()
+        styleSubviews()
     }
     
     required init?(coder: NSCoder) {
@@ -55,11 +41,32 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
         self.movieList = movieList
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
+    private func layout() {
+        categoryLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
+        categoryLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
         
-        
+        collectionView.autoPinEdge(.top, to: .bottom, of: categoryLabel, withOffset: 16)
+        collectionView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 20)
+        collectionView.autoPinEdge(toSuperviewEdge: .leading)
+        collectionView.autoPinEdge(toSuperviewEdge: .trailing)
+        collectionView.autoSetDimension(.height, toSize: 179)
+    }
+    
+    private func styleSubviews() {
+        categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
+        self.selectionStyle = .none
+    }
+    
+    private func collectionViewSetUp() {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = CGSize(width: 122, height: 179)
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0)
+        collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: flowLayout)
+        collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
+        collectionView.dataSource = self
     }
 
 }
@@ -75,6 +82,7 @@ extension CollectionTableViewCell {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as! MovieCollectionViewCell
+        
         KF.url(URL(string: movieList[indexPath.row].imageUrl)).set(to: cell.movieImageView)
         return cell
     }
