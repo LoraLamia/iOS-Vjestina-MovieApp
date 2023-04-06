@@ -41,7 +41,6 @@ class MovieListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        layoutSubviews()
         styleSubviews()
         
         self.selectionStyle = .none
@@ -79,7 +78,7 @@ class MovieListTableViewCell: UITableViewCell {
     }
     
     private func styleSubviews() {
-        contentView.backgroundColor = .black.withAlphaComponent(0.05)
+        contentView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
         
         movieImageView.layer.cornerRadius = 10
         movieImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]

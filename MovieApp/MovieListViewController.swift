@@ -12,7 +12,8 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         
         tableViewSetUpAndLayout()
-        view.backgroundColor = .black.withAlphaComponent(0.05)
+        
+        view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
     }
     
     private func tableViewSetUpAndLayout() {
