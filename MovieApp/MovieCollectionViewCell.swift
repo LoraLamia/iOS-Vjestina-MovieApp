@@ -16,6 +16,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        contentView.addSubview(movieImageView)
+        movieImageView.addSubview(favoriteIconImageView)
+        
+        layout()
         styleSubviews()
     }
         
@@ -23,13 +28,9 @@ class MovieCollectionViewCell: UICollectionViewCell {
         fatalError()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        contentView.addSubview(movieImageView)
-        
+    private func layout() {
         movieImageView.autoPinEdgesToSuperviewEdges()
         movieImageView.autoSetDimension(.width, toSize: 122)
-        movieImageView.addSubview(favoriteIconImageView)
         
         favoriteIconImageView.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
         favoriteIconImageView.autoPinEdge(toSuperviewEdge: .top, withInset: 16)
@@ -40,5 +41,9 @@ class MovieCollectionViewCell: UICollectionViewCell {
         movieImageView.layer.cornerRadius = 10
         movieImageView.layer.masksToBounds = true
         contentView.layer.cornerRadius = 10
+    }
+    
+    override func prepareForReuse() {
+        movieImageView.image = nil
     }
 }

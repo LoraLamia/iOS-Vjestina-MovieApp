@@ -13,13 +13,19 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableViewSetUpAndLayout()
+        
+        categoriesTableView.separatorStyle = .none
+    }
+    
+    private func tableViewSetUpAndLayout() {
         categoriesTableView = UITableView()
-        view.addSubview(categoriesTableView)
         categoriesTableView.dataSource = self
         categoriesTableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: CollectionTableViewCell.identifier)
+        
+        view.addSubview(categoriesTableView)
+        
         categoriesTableView.autoPinEdgesToSuperviewEdges()
-        categoriesTableView.separatorStyle = .none
-
     }
 }
 
@@ -33,10 +39,5 @@ extension MovieCategoriesViewController {
         
         cell.configure(title: categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
         return cell
-    }
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//             300
-//    }
-    
+    }    
 }

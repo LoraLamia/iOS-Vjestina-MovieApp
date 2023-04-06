@@ -24,7 +24,9 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
         contentView.addSubview(collectionView)
         
         layout()
-        styleSubviews()
+        
+        categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
+        self.selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +35,6 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
     }
     
     public func configure(title: String, movieList: [MovieModel]) {
@@ -50,11 +51,6 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
         collectionView.autoPinEdge(toSuperviewEdge: .leading)
         collectionView.autoPinEdge(toSuperviewEdge: .trailing)
         collectionView.autoSetDimension(.height, toSize: 179)
-    }
-    
-    private func styleSubviews() {
-        categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
-        self.selectionStyle = .none
     }
     
     private func collectionViewSetUp() {
@@ -85,12 +81,5 @@ extension CollectionTableViewCell {
         
         KF.url(URL(string: movieList[indexPath.row].imageUrl)).set(to: cell.movieImageView)
         return cell
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        movieList = nil
-        categoryLabel.text = nil
-        collectionView = nil
     }
 }

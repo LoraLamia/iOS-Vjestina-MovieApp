@@ -41,12 +41,13 @@ class MovieListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        layout()
         styleSubviews()
         
         self.selectionStyle = .none
     }
     
-    override func layoutSubviews() {
+    private func layout() {
         contentView.addSubview(containerView)
 
         containerView.autoPinEdge(toSuperviewEdge: .top, withInset: 6)
