@@ -23,6 +23,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         }
         return details
     }()
+    private var H1StackView: UIStackView!
+    private var H3StackView: UIStackView!
 
 
     override func viewDidLoad() {
@@ -31,14 +33,34 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func setUp() {
+        createViews()
         createAndLayoutViews()
         styleViews()
     }
     
-    private func createAndLayoutViews() {
-        
+    private func createViews() {
         let movieImage = UIImage(named: "movieDetails")
         movieImageView = UIImageView(image: movieImage)
+        H1StackView = UIStackView()
+        ratingLabel = UILabel()
+        titleLabel = UILabel()
+        releaseYearLabel = UILabel()
+        categoriesLabel = UILabel()
+        durationLabel = UILabel()
+        dateLabel = UILabel()
+        overViewLabel = UILabel()
+        descriptionLabel = UILabel()
+        H3StackView = UIStackView()
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        let width = UIScreen.main.bounds.width
+        flowLayout.itemSize = CGSize(width: (width / 3) - 32, height: 50)
+    }
+    
+    private func createAndLayoutViews() {
+        
+        
         movieImageView.contentMode = .scaleAspectFill
         movieImageView.clipsToBounds = true
         
@@ -49,24 +71,21 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         movieImageView.autoPinEdge(toSuperviewEdge: .top)
         movieImageView.autoSetDimension(.height, toSize: 327)
         
-        ratingLabel = UILabel()
         ratingLabel.text = String(detailsLabel.rating)
         
         userScoreLabel = UILabel()
         userScoreLabel.text = "User score"
         
-        let H1StackView = UIStackView(arrangedSubviews: [ratingLabel, userScoreLabel])
-        
+        H1StackView.addArrangedSubview(ratingLabel)
+        H1StackView.addArrangedSubview(userScoreLabel)
         movieImageView.addSubview(H1StackView)
         
         H1StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         H1StackView.autoPinEdge(toSuperviewSafeArea: .top, withInset: 90)
         H1StackView.spacing = 8
 
-        titleLabel = UILabel()
         titleLabel.text = detailsLabel.name
         
-        releaseYearLabel = UILabel()
         releaseYearLabel.text = "(" + "\(detailsLabel.year)" + ")"
         
         let H2StackView = UIStackView(arrangedSubviews: [titleLabel, releaseYearLabel])
@@ -77,18 +96,15 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         H2StackView.autoPinEdge(.top, to: .bottom, of: H1StackView, withOffset: 16)
         H2StackView.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 20)
         
-        categoriesLabel = UILabel()
         let stringCategories = detailsLabel.categories.map {
             categorie in "\(categorie)"
         }.joined(separator: ",")
         categoriesLabel.text = stringCategories
         
-        durationLabel = UILabel()
         let hours = detailsLabel.duration / 60
         let minutes = detailsLabel.duration - hours*60
-        durationLabel.text = String(hours) + "h " + String(minutes) + "m"
+        durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
         
-        dateLabel = UILabel()
         let newDateFormat = convertDateFormat(sourceDateString: detailsLabel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
         dateLabel.text = newDateFormat + " (US)"
         
@@ -96,8 +112,9 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         
         dateLabel.autoPinEdge(.top, to: .bottom, of: H2StackView, withOffset: 16)
         dateLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
-        
-        let H3StackView = UIStackView(arrangedSubviews: [categoriesLabel, durationLabel])
+
+        H3StackView.addArrangedSubview(categoriesLabel)
+        H3StackView.addArrangedSubview(durationLabel)
         
         movieImageView.addSubview(H3StackView)
         
@@ -115,7 +132,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         starIconImageView.autoPinEdge(.top, to: .bottom, of: H3StackView, withOffset: 16)
         starIconImageView.autoSetDimension(.height, toSize: 32)
         
-        overViewLabel = UILabel()
         overViewLabel.text = "Overview"
         
         view.addSubview(overViewLabel)
@@ -123,7 +139,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         overViewLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         overViewLabel.autoPinEdge(.top, to: .bottom, of: movieImageView, withOffset: 22)
         
-        descriptionLabel = UILabel()
         descriptionLabel.text = detailsLabel.summary
         
         view.addSubview(descriptionLabel)
@@ -132,18 +147,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         descriptionLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
         descriptionLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
         descriptionLabel.autoPinEdge(.top, to: .bottom, of: overViewLabel, withOffset: 16)
-        
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        let width = UIScreen.main.bounds.width
-        flowLayout.itemSize = CGSize(width: (width / 3) - 32, height: 50)
-        collectionView = UICollectionView(
-            frame: CGRect(
-                x: 0,
-                y: 0,
-                width: view.bounds.width,
-                height: view.bounds.height),
-            collectionViewLayout: flowLayout)
         
         view.addSubview(collectionView)
         
@@ -216,13 +219,13 @@ extension MovieDetailsViewController {
         return cell
     }
     
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(width: (collectionView.bounds.width / 3) - 32, height: 50)
-    }
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        sizeForItemAt indexPath: IndexPath
+//    ) -> CGSize {
+//        return CGSize(width: (collectionView.bounds.width / 3) - 32, height: 50)
+//    }
 
 }
 
