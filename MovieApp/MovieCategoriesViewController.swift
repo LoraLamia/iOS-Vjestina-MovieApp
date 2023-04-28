@@ -35,9 +35,11 @@ extension MovieCategoriesViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = categoriesTableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as! CollectionTableViewCell
-        
-        cell.configure(title: categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
-        return cell
+        if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as? CollectionTableViewCell {
+            cell.configure(title: categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }    
 }

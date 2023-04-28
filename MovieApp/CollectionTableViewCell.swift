@@ -78,9 +78,11 @@ extension CollectionTableViewCell {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as! MovieCollectionViewCell
-        
-        KF.url(URL(string: movieList[indexPath.row].imageUrl)).set(to: cell.movieImageView)
-        return cell
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as? MovieCollectionViewCell {
+            KF.url(URL(string: movieList[indexPath.row].imageUrl)).set(to: cell.movieImageView)
+            return cell
+        } else {
+            return UICollectionViewCell()
+        }
     }
 }

@@ -43,12 +43,16 @@ extension MovieListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = movieListTableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as! MovieListTableViewCell
-        let movies = MovieUseCase().allMovies
-        cell.configure(title: movies[indexPath.row].name, description: movies[indexPath.row].summary)
+        if let cell = movieListTableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as? MovieListTableViewCell {
+            let movies = MovieUseCase().allMovies
+            cell.configure(title: movies[indexPath.row].name, description: movies[indexPath.row].summary)
+            
+            KF.url(URL(string: movies[indexPath.row].imageUrl)).set(to: cell.movieImageView)
+            return cell
+        } else {
+            return UITableViewCell()
+        }
         
-        KF.url(URL(string: movies[indexPath.row].imageUrl)).set(to: cell.movieImageView)
-        return cell
     }
 
 }
