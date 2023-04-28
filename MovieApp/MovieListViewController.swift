@@ -26,6 +26,7 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
         movieListTableView.delegate = self
         movieListTableView.rowHeight = 142
         
+        
         movieListTableView.autoPinEdge(toSuperviewSafeArea: .leading)
         movieListTableView.autoPinEdge(toSuperviewSafeArea: .trailing)
         movieListTableView.autoPinEdge(toSuperviewSafeArea: .top)

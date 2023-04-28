@@ -51,6 +51,7 @@ class LogInViewController: UIViewController {
         titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: 80)
         
         emailLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
+        emailLabel.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 16)
         emailLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 48)
         
         emailTextField.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: 8)
@@ -59,6 +60,7 @@ class LogInViewController: UIViewController {
         emailTextField.autoSetDimension(.height, toSize: 48)
         
         passwordLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
+        passwordLabel.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 16)
         passwordLabel.autoPinEdge(.top, to: .bottom, of: emailTextField, withOffset: 24)
         
         passwordTextField.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)

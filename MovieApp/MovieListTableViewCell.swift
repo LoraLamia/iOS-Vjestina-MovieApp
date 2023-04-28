@@ -6,29 +6,13 @@ class MovieListTableViewCell: UITableViewCell {
     
     static let identifier = "MovieListTableViewCell"
     
-    var movieImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "test")
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        return imageView
-    }()
+    var movieImageView: UIImageView!
     
-    private let movieTitleLabel: UILabel = {
-        let titleLabel = UILabel()
-        return titleLabel
-    }()
+    private var movieTitleLabel: UILabel!
     
-    private let movieDescriptionLabel: UILabel = {
-        let descriptionLabel = UILabel()
-        return descriptionLabel
-    }()
+    private var movieDescriptionLabel: UILabel!
     
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
+    private var containerView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -41,13 +25,21 @@ class MovieListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        layout()
+        createViews()
+        layoutViews()
         styleSubviews()
         
         self.selectionStyle = .none
     }
     
-    private func layout() {
+    private func createViews() {
+        movieImageView = UIImageView()
+        movieTitleLabel = UILabel();
+        movieDescriptionLabel = UILabel()
+        containerView = UILabel()
+    }
+    
+    private func layoutViews() {
         contentView.addSubview(containerView)
 
         containerView.autoPinEdge(toSuperviewEdge: .top, withInset: 6)
@@ -89,6 +81,10 @@ class MovieListTableViewCell: UITableViewCell {
         containerView.layer.shadowOpacity = 0.1
         containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
         containerView.layer.shadowRadius = 2
+        containerView.backgroundColor = .white
+        
+        movieImageView.contentMode = .scaleAspectFill
+        movieImageView.clipsToBounds = true
     }
     
     required init?(coder: NSCoder) {
