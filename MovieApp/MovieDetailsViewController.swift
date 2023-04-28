@@ -17,14 +17,14 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var overViewLabel: UILabel!
     private var descriptionLabel: UILabel!
     private var collectionView: UICollectionView!
+    private var H1StackView: UIStackView!
+    private var H3StackView: UIStackView!
     private var detailsLabel: MovieDetailsModel = {
         guard let details = MovieUseCase().getDetails(id: 111161) else {
             fatalError("Could not get movie Info!")
         }
         return details
     }()
-    private var H1StackView: UIStackView!
-    private var H3StackView: UIStackView!
 
 
     override func viewDidLoad() {
@@ -34,7 +34,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func setUp() {
         createViews()
-        createAndLayoutViews()
+        layoutViews()
         styleViews()
     }
     
@@ -51,6 +51,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         overViewLabel = UILabel()
         descriptionLabel = UILabel()
         H3StackView = UIStackView()
+        let starIconImage = UIImage(named: "starIcon")
+        starIconImageView = UIImageView(image: starIconImage)
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -58,8 +60,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         flowLayout.itemSize = CGSize(width: (width / 3) - 32, height: 50)
     }
     
-    private func createAndLayoutViews() {
-        
+    private func layoutViews() {
         
         movieImageView.contentMode = .scaleAspectFill
         movieImageView.clipsToBounds = true
@@ -122,8 +123,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         H3StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         H3StackView.spacing = 8
         
-        let starIconImage = UIImage(named: "starIcon")
-        starIconImageView = UIImageView(image: starIconImage)
         starIconImageView.contentMode = .scaleAspectFill
         
         movieImageView.addSubview(starIconImageView)
@@ -210,23 +209,16 @@ extension MovieDetailsViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
+        if let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: MyCollectionViewCell.cellIdentifier,
-            for: indexPath) as! MyCollectionViewCell
-        
-        let crewMember = detailsLabel.crewMembers[indexPath.row]
-        cell.configure(name: crewMember.name, position: crewMember.role)
-        return cell
+            for: indexPath) as? MyCollectionViewCell {
+            let crewMember = detailsLabel.crewMembers[indexPath.row]
+            cell.configure(name: crewMember.name, position: crewMember.role)
+            return cell
+        } else {
+            return UICollectionViewCell()
+        }
     }
-    
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        sizeForItemAt indexPath: IndexPath
-//    ) -> CGSize {
-//        return CGSize(width: (collectionView.bounds.width / 3) - 32, height: 50)
-//    }
-
 }
 
 

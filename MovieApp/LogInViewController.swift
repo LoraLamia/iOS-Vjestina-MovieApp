@@ -16,6 +16,12 @@ class LogInViewController: UIViewController {
         setUp()
     }
     
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+       get {
+          return .portrait
+       }
+    }
+    
     private func setUp() {
         createViews()
         defineLayoutForView()
