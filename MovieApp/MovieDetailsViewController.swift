@@ -149,6 +149,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         
         collectionView.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: MyCollectionViewCell.cellIdentifier)
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
         collectionView.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
         collectionView.autoPinEdge(.top, to: .bottom, of: descriptionLabel, withOffset: 27)
@@ -213,6 +214,14 @@ extension MovieDetailsViewController {
         let crewMember = detailsLabel.crewMembers[indexPath.row]
         cell.configure(name: crewMember.name, position: crewMember.role)
         return cell
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: (collectionView.bounds.width / 3) - 32, height: 50)
     }
 
 }
