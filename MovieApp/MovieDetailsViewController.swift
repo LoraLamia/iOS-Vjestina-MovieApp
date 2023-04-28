@@ -19,7 +19,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var collectionView: UICollectionView!
     private var detailsLabel: MovieDetailsModel = {
         guard let details = MovieUseCase().getDetails(id: 111161) else {
-            exit(1)
+            fatalError("Could not get movie Info!")
         }
         return details
     }()
@@ -67,7 +67,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         titleLabel.text = detailsLabel.name
         
         releaseYearLabel = UILabel()
-        releaseYearLabel.text = "(" + String(detailsLabel.year) + ")"
+        releaseYearLabel.text = "(" + "\(detailsLabel.year)" + ")"
         
         let H2StackView = UIStackView(arrangedSubviews: [titleLabel, releaseYearLabel])
         
@@ -198,11 +198,11 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
 extension MovieDetailsViewController {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return detailsLabel.crewMembers.count
+        detailsLabel.crewMembers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -210,9 +210,8 @@ extension MovieDetailsViewController {
             withReuseIdentifier: MyCollectionViewCell.cellIdentifier,
             for: indexPath) as! MyCollectionViewCell
         
-        let names = detailsLabel.crewMembers.map { $0.name }
-        let positions = detailsLabel.crewMembers.map { $0.role }
-        cell.configure(name: names[indexPath.row], position: positions[indexPath.row])
+        let crewMember = detailsLabel.crewMembers[indexPath.row]
+        cell.configure(name: crewMember.name, position: crewMember.role)
         return cell
     }
 
