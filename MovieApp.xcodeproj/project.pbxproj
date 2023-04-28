@@ -14,6 +14,8 @@
 		8C2C7C0829D497FF00700118 /* PureLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 8C2C7C0729D497FF00700118 /* PureLayout */; };
 		8C2C7C0B29D4987B00700118 /* MovieAppData in Frameworks */ = {isa = PBXBuildFile; productRef = 8C2C7C0A29D4987B00700118 /* MovieAppData */; };
 		8C2C7C0F29D4A4AE00700118 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C7C0E29D4A4AE00700118 /* LogInViewController.swift */; };
+		8C4901B829D5AFE300573D7D /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4901B729D5AFE300573D7D /* MovieDetailsViewController.swift */; };
+		8C5B49FF29D83028004535DB /* MyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5B49FE29D83028004535DB /* MyCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		8C2C7BFE29D4975B00700118 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8C2C7C0029D4975B00700118 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C2C7C0E29D4A4AE00700118 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		8C4901B729D5AFE300573D7D /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
+		8C5B49FE29D83028004535DB /* MyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +68,8 @@
 				8C2C7BFD29D4975B00700118 /* LaunchScreen.storyboard */,
 				8C2C7C0029D4975B00700118 /* Info.plist */,
 				8C2C7C0E29D4A4AE00700118 /* LogInViewController.swift */,
+				8C4901B729D5AFE300573D7D /* MovieDetailsViewController.swift */,
+				8C5B49FE29D83028004535DB /* MyCollectionViewCell.swift */,
 			);
 			path = MovieApp;
 			sourceTree = "<group>";
@@ -146,6 +152,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C4901B829D5AFE300573D7D /* MovieDetailsViewController.swift in Sources */,
+				8C5B49FF29D83028004535DB /* MyCollectionViewCell.swift in Sources */,
 				8C2C7BF329D4975A00700118 /* AppDelegate.swift in Sources */,
 				8C2C7BF529D4975A00700118 /* SceneDelegate.swift in Sources */,
 				8C2C7C0F29D4A4AE00700118 /* LogInViewController.swift in Sources */,
