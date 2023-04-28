@@ -39,7 +39,7 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
 extension MovieListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return MovieUseCase().allMovies.count
+        MovieUseCase().allMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

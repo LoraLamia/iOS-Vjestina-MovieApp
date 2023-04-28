@@ -19,7 +19,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var collectionView: UICollectionView!
     private var detailsLabel: MovieDetailsModel = {
         guard let details = MovieUseCase().getDetails(id: 111161) else {
-            exit(1)
+            fatalError("couldn't get data")
         }
         return details
     }()

@@ -6,16 +6,12 @@ class MovieCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MovieCollectionViewCell"
     
-    private let favoriteIconImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "favorite")
-        return imageView
-    }()
-    
-    public var movieImageView = UIImageView()
+    private var favoriteIconImageView: UIImageView!
+    public var movieImageView: UIImageView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        createViews()
         
         contentView.addSubview(movieImageView)
         movieImageView.addSubview(favoriteIconImageView)
@@ -28,6 +24,11 @@ class MovieCollectionViewCell: UICollectionViewCell {
         fatalError()
     }
     
+    private func createViews() {
+        favoriteIconImageView = UIImageView()
+        movieImageView = UIImageView()
+    }
+    
     private func layout() {
         movieImageView.autoPinEdgesToSuperviewEdges()
         movieImageView.autoSetDimension(.width, toSize: 122)
@@ -38,6 +39,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     private func styleSubviews() {
+        favoriteIconImageView.image = UIImage(named: "favorite")
         movieImageView.layer.cornerRadius = 10
         movieImageView.layer.masksToBounds = true
         contentView.layer.cornerRadius = 10

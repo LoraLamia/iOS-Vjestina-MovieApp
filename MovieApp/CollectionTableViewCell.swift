@@ -7,7 +7,7 @@ import Kingfisher
 class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
     
     static let identifier = "CollectionTableViewCell"
-    private var categoryLabel = UILabel()
+    private let categoryLabel = UILabel()
     private var collectionView: UICollectionView!
     private var movieList: [MovieModel]!
 
@@ -23,7 +23,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
         contentView.addSubview(categoryLabel)
         contentView.addSubview(collectionView)
         
-        layout()
+        layoutViews()
         
         categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
         self.selectionStyle = .none
@@ -42,9 +42,10 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
         self.movieList = movieList
     }
     
-    private func layout() {
+    private func layoutViews() {
         categoryLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
         categoryLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
+        categoryLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
         
         collectionView.autoPinEdge(.top, to: .bottom, of: categoryLabel, withOffset: 16)
         collectionView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 20)
@@ -69,7 +70,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
 
 extension CollectionTableViewCell {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
