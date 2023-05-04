@@ -5,36 +5,29 @@ import PureLayout
 class MovieListTableViewCell: UITableViewCell {
     
     static let identifier = "MovieListTableViewCell"
-    
     var movieImageView: UIImageView!
-    
     private var movieTitleLabel: UILabel!
-    
     private var movieDescriptionLabel: UILabel!
-    
     private var containerView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        buildViews()
+    }
+    
+    private func buildViews() {
         createViews()
         layoutViews()
         styleSubviews()
-        
-        self.selectionStyle = .none
     }
     
     private func createViews() {
         movieImageView = UIImageView()
-        movieTitleLabel = UILabel();
+        movieTitleLabel = UILabel()
         movieDescriptionLabel = UILabel()
         containerView = UILabel()
     }
@@ -85,6 +78,8 @@ class MovieListTableViewCell: UITableViewCell {
         
         movieImageView.contentMode = .scaleAspectFill
         movieImageView.clipsToBounds = true
+        
+        self.selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {

@@ -1,9 +1,3 @@
-//
-//  SceneDelegate.swift
-//  MovieApp
-//
-//  Created by Ivan Milicevic on 29.03.2023..
-//
 
 import UIKit
 
@@ -17,7 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let vc = MovieCategoriesViewController()
+        let vc = MovieDetailsViewController()
         window?.rootViewController = vc
         window?.makeKeyAndVisible()
         

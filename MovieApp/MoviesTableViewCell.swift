@@ -4,10 +4,10 @@ import PureLayout
 import MovieAppData
 import Kingfisher
 
-class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
+class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource {
     
     static let identifier = "CollectionTableViewCell"
-    private let categoryLabel = UILabel()
+    private var categoryLabel: UILabel!
     private var collectionView: UICollectionView!
     private var movieList: [MovieModel]!
 
@@ -17,32 +17,32 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         collectionViewSetUp()
-        
-        contentView.addSubview(categoryLabel)
-        contentView.addSubview(collectionView)
-        
+        buildViews()
+    }
+    
+    private func buildViews() {
+        createViews()
         layoutViews()
-        
-        categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
-        self.selectionStyle = .none
+        styleViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-    
-    public func configure(title: String, movieList: [MovieModel]) {
+    func configure(title: String, movieList: [MovieModel]) {
         categoryLabel.text = title
         self.movieList = movieList
     }
     
+    private func createViews() {
+        categoryLabel = UILabel()
+    }
+    
     private func layoutViews() {
+        contentView.addSubview(categoryLabel)
+        contentView.addSubview(collectionView)
         categoryLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
         categoryLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
         categoryLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
@@ -52,6 +52,11 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
         collectionView.autoPinEdge(toSuperviewEdge: .leading)
         collectionView.autoPinEdge(toSuperviewEdge: .trailing)
         collectionView.autoSetDimension(.height, toSize: 179)
+    }
+    
+    private func styleViews() {
+        categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
+        self.selectionStyle = .none
     }
     
     private func collectionViewSetUp() {
@@ -68,7 +73,7 @@ class CollectionTableViewCell: UITableViewCell, UICollectionViewDataSource {
 
 }
 
-extension CollectionTableViewCell {
+extension MoviesTableViewCell {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }

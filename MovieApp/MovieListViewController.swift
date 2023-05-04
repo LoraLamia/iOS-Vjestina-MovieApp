@@ -11,28 +11,38 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableViewSetUpAndLayout()
-        
-        view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        buildViews()
+        tableViewSetUp()
     }
     
-    private func tableViewSetUpAndLayout() {
-        movieListTableView = UITableView()
+    private func tableViewSetUp() {
         movieListTableView.register(MovieListTableViewCell.self, forCellReuseIdentifier: MovieListTableViewCell.identifier)
-        
-        view.addSubview(movieListTableView)
-        
         movieListTableView.dataSource = self
         movieListTableView.delegate = self
-        movieListTableView.rowHeight = 142
-        
-        
+    }
+    
+    private func buildViews() {
+        createViews()
+        layoutViews()
+        styleViews()
+    }
+    
+    private func createViews() {
+        movieListTableView = UITableView()
+    }
+    
+    private func layoutViews() {
+        view.addSubview(movieListTableView)
         movieListTableView.autoPinEdge(toSuperviewSafeArea: .leading)
         movieListTableView.autoPinEdge(toSuperviewSafeArea: .trailing)
         movieListTableView.autoPinEdge(toSuperviewSafeArea: .top)
         movieListTableView.autoPinEdge(toSuperviewSafeArea: .bottom)
-        
+    }
+    
+    private func styleViews() {
         movieListTableView.separatorStyle = .none
+        movieListTableView.rowHeight = 142
+        view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
     }
 }
 

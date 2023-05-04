@@ -13,7 +13,7 @@ class LogInViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUp()
+        buildViews()
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -22,58 +22,54 @@ class LogInViewController: UIViewController {
        }
     }
     
-    private func setUp() {
+    private func buildViews() {
         createViews()
-        defineLayoutForView()
+        layoutViews()
         styleViews()
     }
     
     private func createViews() {
         titleLabel = UILabel()
-        view.addSubview(titleLabel)
-        titleLabel.text = "Sign in"
         
         emailLabel = UILabel()
-        view.addSubview(emailLabel)
-        emailLabel.text = "Email address"
         
         passwordLabel = UILabel()
-        view.addSubview(passwordLabel)
-        passwordLabel.text = "Password"
         
         emailTextField = UITextField()
-        view.addSubview(emailTextField)
         
         passwordTextField = UITextField()
-        view.addSubview(passwordTextField)
         
         signInButton = UIButton()
-        view.addSubview(signInButton)
-        
     }
     
-    private func defineLayoutForView() {
+    private func layoutViews() {
+        view.addSubview(titleLabel)
         titleLabel.autoAlignAxis(toSuperviewAxis: .vertical)
         titleLabel.autoPinEdge(toSuperviewSafeArea: .top, withInset: 80)
         
+        view.addSubview(emailLabel)
         emailLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
         emailLabel.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 16)
         emailLabel.autoPinEdge(.top, to: .bottom, of: titleLabel, withOffset: 48)
         
+        view.addSubview(emailTextField)
         emailTextField.autoPinEdge(.top, to: .bottom, of: emailLabel, withOffset: 8)
         emailTextField.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
         emailTextField.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 16)
         emailTextField.autoSetDimension(.height, toSize: 48)
         
+        view.addSubview(passwordLabel)
         passwordLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
         passwordLabel.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 16)
         passwordLabel.autoPinEdge(.top, to: .bottom, of: emailTextField, withOffset: 24)
         
+        view.addSubview(passwordTextField)
         passwordTextField.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
         passwordTextField.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 16)
         passwordTextField.autoPinEdge(.top, to: .bottom, of: passwordLabel, withOffset: 8)
         passwordTextField.autoSetDimension(.height, toSize: 48)
         
+        view.addSubview(signInButton)
         signInButton.autoPinEdge(.top, to: .bottom, of: passwordTextField, withOffset: 48)
         signInButton.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 32)
         signInButton.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 32)
@@ -83,12 +79,15 @@ class LogInViewController: UIViewController {
     private func styleViews() {
         view.backgroundColor = UIColor(red: 11/255, green: 37/255, blue: 63/255, alpha: 1.0)
         
+        titleLabel.text = "Sign in"
         titleLabel.textColor = .white
         titleLabel.font = UIFont.boldSystemFont(ofSize: 24.0)
         
+        emailLabel.text = "Email address"
         emailLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
         emailLabel.textColor = .white
         
+        passwordLabel.text = "Password"
         passwordLabel.font = UIFont.boldSystemFont(ofSize: 14.0)
         passwordLabel.textColor = .white
         

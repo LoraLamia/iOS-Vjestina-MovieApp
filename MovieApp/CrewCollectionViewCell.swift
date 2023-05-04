@@ -2,7 +2,7 @@
 import UIKit
 import PureLayout
 
-class MyCollectionViewCell: UICollectionViewCell {
+class CrewCollectionViewCell: UICollectionViewCell {
     
     static let cellIdentifier = "crewCellIdentifier"
     
@@ -12,18 +12,26 @@ class MyCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        crewMemberNameLabel = UILabel()
-        crewMemberPositionLabel = UILabel()
-        contentView.addSubview(crewMemberNameLabel)
-        contentView.addSubview(crewMemberPositionLabel)
-        defineLayout();
+        buildViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private func defineLayout() {
+    private func buildViews() {
+        createViews()
+        layoutViews()
+    }
+    
+    private func createViews() {
+        crewMemberNameLabel = UILabel()
+        crewMemberPositionLabel = UILabel()
+    }
+    
+    private func layoutViews() {
+        contentView.addSubview(crewMemberNameLabel)
+        contentView.addSubview(crewMemberPositionLabel)
         crewMemberNameLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 3)
         crewMemberNameLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 0)
         crewMemberNameLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 0)
@@ -31,10 +39,9 @@ class MyCollectionViewCell: UICollectionViewCell {
         crewMemberPositionLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 0)
         crewMemberPositionLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 0)
         crewMemberPositionLabel.autoPinEdge(toSuperviewEdge: .bottom, withInset: 0)
-
     }
     
-    public func configure(name: String, position: String) {
+    func configure(name: String, position: String) {
         self.crewMemberNameLabel.text = name
         self.crewMemberNameLabel.font = UIFont.boldSystemFont(ofSize: 14)
         self.crewMemberPositionLabel.text = position

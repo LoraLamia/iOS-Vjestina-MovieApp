@@ -12,20 +12,28 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableViewSetUpAndLayout()
-        
-        categoriesTableView.separatorStyle = .none
+        buildviews()
     }
     
-    private func tableViewSetUpAndLayout() {
+    private func buildviews() {
+        createViews()
+        layoutViews()
+        styleViews()
+    }
+    
+    private func createViews() {
         categoriesTableView = UITableView()
         categoriesTableView.dataSource = self
-        categoriesTableView.register(CollectionTableViewCell.self, forCellReuseIdentifier: CollectionTableViewCell.identifier)
-        
+        categoriesTableView.register(MoviesTableViewCell.self, forCellReuseIdentifier: MoviesTableViewCell.identifier)
+    }
+    
+    private func layoutViews() {
         view.addSubview(categoriesTableView)
-        
         categoriesTableView.autoPinEdgesToSuperviewEdges()
+    }
+    
+    private func styleViews() {
+        categoriesTableView.separatorStyle = .none
     }
 }
 
@@ -35,7 +43,7 @@ extension MovieCategoriesViewController {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as? CollectionTableViewCell {
+        if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.identifier, for: indexPath) as? MoviesTableViewCell {
             cell.configure(title: categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
             return cell
         } else {

@@ -29,10 +29,10 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUp()
+        buildViews()
     }
     
-    private func setUp() {
+    private func buildViews() {
         createViews()
         layoutViews()
         styleViews()
@@ -62,9 +62,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func layoutViews() {
         
-        movieImageView.contentMode = .scaleAspectFill
-        movieImageView.clipsToBounds = true
-        
         view.addSubview(movieImageView)
         
         movieImageView.autoPinEdge(toSuperviewEdge: .leading)
@@ -72,10 +69,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         movieImageView.autoPinEdge(toSuperviewEdge: .top)
         movieImageView.autoSetDimension(.height, toSize: 327)
         
-        ratingLabel.text = String(detailsLabel.rating)
-        
         userScoreLabel = UILabel()
-        userScoreLabel.text = "User score"
         
         H1StackView.addArrangedSubview(ratingLabel)
         H1StackView.addArrangedSubview(userScoreLabel)
@@ -83,11 +77,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         
         H1StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         H1StackView.autoPinEdge(toSuperviewSafeArea: .top, withInset: 90)
-        H1StackView.spacing = 8
-
-        titleLabel.text = detailsLabel.name
-        
-        releaseYearLabel.text = "(" + "\(detailsLabel.year)" + ")"
         
         let H2StackView = UIStackView(arrangedSubviews: [titleLabel, releaseYearLabel])
         
@@ -96,18 +85,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         H2StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         H2StackView.autoPinEdge(.top, to: .bottom, of: H1StackView, withOffset: 16)
         H2StackView.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 20)
-        
-        let stringCategories = detailsLabel.categories.map {
-            categorie in "\(categorie)"
-        }.joined(separator: ",")
-        categoriesLabel.text = stringCategories
-        
-        let hours = detailsLabel.duration / 60
-        let minutes = detailsLabel.duration - hours*60
-        durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
-        
-        let newDateFormat = convertDateFormat(sourceDateString: detailsLabel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
-        dateLabel.text = newDateFormat + " (US)"
         
         movieImageView.addSubview(dateLabel)
         
@@ -121,9 +98,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         
         H3StackView.autoPinEdge(.top, to: .bottom, of: dateLabel, withOffset: 0)
         H3StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
-        H3StackView.spacing = 8
-        
-        starIconImageView.contentMode = .scaleAspectFill
         
         movieImageView.addSubview(starIconImageView)
         
@@ -131,25 +105,20 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         starIconImageView.autoPinEdge(.top, to: .bottom, of: H3StackView, withOffset: 16)
         starIconImageView.autoSetDimension(.height, toSize: 32)
         
-        overViewLabel.text = "Overview"
-        
         view.addSubview(overViewLabel)
         
         overViewLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         overViewLabel.autoPinEdge(.top, to: .bottom, of: movieImageView, withOffset: 22)
         
-        descriptionLabel.text = detailsLabel.summary
-        
         view.addSubview(descriptionLabel)
         
-        descriptionLabel.numberOfLines = 0
         descriptionLabel.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 16)
         descriptionLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
         descriptionLabel.autoPinEdge(.top, to: .bottom, of: overViewLabel, withOffset: 16)
         
         view.addSubview(collectionView)
         
-        collectionView.register(MyCollectionViewCell.self, forCellWithReuseIdentifier: MyCollectionViewCell.cellIdentifier)
+        collectionView.register(CrewCollectionViewCell.self, forCellWithReuseIdentifier: CrewCollectionViewCell.cellIdentifier)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
@@ -159,6 +128,40 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func styleViews() {
+        ratingLabel.text = String(detailsLabel.rating)
+        userScoreLabel.text = "User score"
+        
+        H1StackView.spacing = 8
+
+        titleLabel.text = detailsLabel.name
+        
+        releaseYearLabel.text = "(" + "\(detailsLabel.year)" + ")"
+        
+        let stringCategories = detailsLabel.categories.map {
+            categorie in "\(categorie)"
+        }.joined(separator: ",")
+        categoriesLabel.text = stringCategories
+        
+        let hours = detailsLabel.duration / 60
+        let minutes = detailsLabel.duration - hours*60
+        durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
+        
+        let newDateFormat = convertDateFormat(sourceDateString: detailsLabel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
+        dateLabel.text = newDateFormat + " (US)"
+        
+        overViewLabel.text = "Overview"
+        
+        descriptionLabel.text = detailsLabel.summary
+        
+        descriptionLabel.numberOfLines = 0
+        
+        H3StackView.spacing = 8
+        
+        starIconImageView.contentMode = .scaleAspectFill
+        
+        movieImageView.contentMode = .scaleAspectFill
+        movieImageView.clipsToBounds = true
+        
         view.backgroundColor = .white
         
         ratingLabel.font = UIFont.boldSystemFont(ofSize: 16)
@@ -210,8 +213,8 @@ extension MovieDetailsViewController {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: MyCollectionViewCell.cellIdentifier,
-            for: indexPath) as? MyCollectionViewCell {
+            withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
+            for: indexPath) as? CrewCollectionViewCell {
             let crewMember = detailsLabel.crewMembers[indexPath.row]
             cell.configure(name: crewMember.name, position: crewMember.role)
             return cell
