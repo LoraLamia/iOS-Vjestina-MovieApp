@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C11B69D2A03D51C008B9260 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C11B69C2A03D51C008B9260 /* FavoritesViewController.swift */; };
+		8C11B69F2A03D8BA008B9260 /* AppRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C11B69E2A03D8BA008B9260 /* AppRouter.swift */; };
 		8C2C7BF329D4975A00700118 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C7BF229D4975A00700118 /* AppDelegate.swift */; };
 		8C2C7BF529D4975A00700118 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C7BF429D4975A00700118 /* SceneDelegate.swift */; };
 		8C2C7BFC29D4975B00700118 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C2C7BFB29D4975B00700118 /* Assets.xcassets */; };
@@ -25,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C11B69C2A03D51C008B9260 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		8C11B69E2A03D8BA008B9260 /* AppRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRouter.swift; sourceTree = "<group>"; };
 		8C2C7BEF29D4975A00700118 /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C2C7BF229D4975A00700118 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C2C7BF429D4975A00700118 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 				8CF75CDC29DED2E10034857E /* MovieCollectionViewCell.swift */,
 				8C4901B729D5AFE300573D7D /* MovieDetailsViewController.swift */,
 				8C5B49FE29D83028004535DB /* CrewCollectionViewCell.swift */,
+				8C11B69C2A03D51C008B9260 /* FavoritesViewController.swift */,
+				8C11B69E2A03D8BA008B9260 /* AppRouter.swift */,
 			);
 			path = MovieApp;
 			sourceTree = "<group>";
@@ -177,7 +183,9 @@
 				8C2C7BF529D4975A00700118 /* SceneDelegate.swift in Sources */,
 				8C2C7C0F29D4A4AE00700118 /* LogInViewController.swift in Sources */,
 				8CF75CDB29DED28C0034857E /* MoviesTableViewCell.swift in Sources */,
+				8C11B69D2A03D51C008B9260 /* FavoritesViewController.swift in Sources */,
 				8CF3537629DD6C820076BBBE /* MovieListTableViewCell.swift in Sources */,
+				8C11B69F2A03D8BA008B9260 /* AppRouter.swift in Sources */,
 				8CF3537429DD66C00076BBBE /* MovieListViewController.swift in Sources */,
 				8CF75CD929DED21C0034857E /* MovieCategoriesViewController.swift in Sources */,
 				8CF75CDD29DED2E10034857E /* MovieCollectionViewCell.swift in Sources */,
