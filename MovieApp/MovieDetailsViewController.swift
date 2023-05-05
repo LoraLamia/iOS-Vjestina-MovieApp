@@ -2,10 +2,12 @@
 import PureLayout
 import UIKit
 import MovieAppData
+import Kingfisher
 
 class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     private var movieImageView: UIImageView!
+    var urlString: String?
     private var starIconImageView: UIImageView!
     private var ratingLabel: UILabel!
     private var userScoreLabel: UILabel!
@@ -25,7 +27,15 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         }
         return details
     }()
-
+    
+    init(urlString: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.urlString = urlString
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +49,10 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func createViews() {
-        let movieImage = UIImage(named: "movieDetails")
-        movieImageView = UIImageView(image: movieImage)
+        movieImageView = UIImageView()
+        guard let urlString = urlString else { return }
+        let url = URL(string: urlString)
+        movieImageView.kf.setImage(with: url)
         H1StackView = UIStackView()
         ratingLabel = UILabel()
         titleLabel = UILabel()

@@ -4,7 +4,7 @@ import UIKit
 import Kingfisher
 import MovieAppData
 
-class MovieCategoriesViewController: UIViewController, UITableViewDataSource, MovieCollectionCellDelegate {
+class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     
     private var categoryTitles = ["What's popular", "Free to watch", "Trending"]
     private var categoryMovies = [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
@@ -38,6 +38,7 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource, Mo
 }
 
 extension MovieCategoriesViewController {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         3
     }
@@ -52,8 +53,13 @@ extension MovieCategoriesViewController {
         }
     }
     
+    
+}
+
+extension MovieCategoriesViewController: MovieCollectionCellDelegate {
+    
     func didSelectMovie(movieDetails: MovieDetailsModel) {
-        let movieDetailsViewController = MovieDetailsViewController()
+        let movieDetailsViewController = MovieDetailsViewController(urlString: movieDetails.imageUrl)
         movieDetailsViewController.detailsLabel = movieDetails
         self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
     }

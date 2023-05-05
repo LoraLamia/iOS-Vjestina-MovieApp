@@ -12,7 +12,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     
     static let identifier = "CollectionTableViewCell"
     private var categoryLabel: UILabel!
-    @IBOutlet var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
     var delegate: MovieCollectionCellDelegate?
     private var movieList: [MovieModel]!
 
@@ -101,5 +101,4 @@ extension MoviesTableViewCell {
         guard let details = MovieUseCase().getDetails(id: movieList[indexPath.row].id) else { return }
         delegate?.didSelectMovie(movieDetails: details)
     }
-    
 }
