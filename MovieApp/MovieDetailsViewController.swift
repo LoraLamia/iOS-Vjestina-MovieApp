@@ -71,7 +71,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         
         movieImageView.autoPinEdge(toSuperviewEdge: .leading)
         movieImageView.autoPinEdge(toSuperviewEdge: .trailing)
-        movieImageView.autoPinEdge(toSuperviewEdge: .top)
+        movieImageView.autoPinEdge(toSuperviewSafeArea: .top)
         movieImageView.autoSetDimension(.height, toSize: 327)
         
         userScoreLabel = UILabel()
@@ -134,7 +134,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func styleViews() {
         self.title = "Movie Details"
-        self.navigationController?.navigationBar.backgroundColor = .white
+//        self.navigationController?.navigationBar.backgroundColor = .white
         ratingLabel.text = String(movieDetailsModel.rating)
         userScoreLabel.text = "User score"
         
