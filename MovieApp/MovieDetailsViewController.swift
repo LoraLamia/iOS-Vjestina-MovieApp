@@ -34,6 +34,63 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     override func viewDidLoad() {
         super.viewDidLoad()
         buildViews()
+        prepareAnimation()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        performAnimation()
+    }
+    
+    private func prepareAnimation() {
+        titleLabel.transform = titleLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        ratingLabel.transform = ratingLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        userScoreLabel.transform = userScoreLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        releaseYearLabel.transform = releaseYearLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        dateLabel.transform = dateLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        categoriesLabel.transform = categoriesLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        durationLabel.transform = durationLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        descriptionLabel.transform = descriptionLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        collectionView.alpha = 0
+    }
+    
+    private func performAnimation() {
+        UIView.animate(
+            withDuration: 0.2,
+            delay: 0,
+            animations: {
+                self.titleLabel.transform = .identity
+                self.ratingLabel.transform = .identity
+                self.userScoreLabel.transform = .identity
+                self.releaseYearLabel.transform = .identity
+                self.dateLabel.transform = .identity
+                self.categoriesLabel.transform = .identity
+                self.durationLabel.transform = .identity
+                self.descriptionLabel.transform = .identity
+            }, completion: { _ in
+                UIView.animate(
+                    withDuration: 0.3,
+                    delay: 0.3,
+                    animations: {
+                        self.collectionView.alpha = 1
+                    })
+            })
     }
     
     private func buildViews() {
@@ -72,7 +129,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         movieImageView.autoPinEdge(toSuperviewEdge: .leading)
         movieImageView.autoPinEdge(toSuperviewEdge: .trailing)
         movieImageView.autoPinEdge(toSuperviewSafeArea: .top)
-        movieImageView.autoSetDimension(.height, toSize: 327)
+        movieImageView.autoSetDimension(.height, toSize: 278)
         
         userScoreLabel = UILabel()
         
@@ -84,12 +141,13 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         H1StackView.autoPinEdge(toSuperviewSafeArea: .top, withInset: 90)
         
         let H2StackView = UIStackView(arrangedSubviews: [titleLabel, releaseYearLabel])
+        H2StackView.spacing = 8
         
         movieImageView.addSubview(H2StackView)
         
         H2StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         H2StackView.autoPinEdge(.top, to: .bottom, of: H1StackView, withOffset: 16)
-        H2StackView.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 20)
+        H2StackView.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 20, relation: .greaterThanOrEqual)
         
         movieImageView.addSubview(dateLabel)
         
@@ -134,7 +192,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func styleViews() {
         self.title = "Movie Details"
-//        self.navigationController?.navigationBar.backgroundColor = .white
         ratingLabel.text = String(movieDetailsModel.rating)
         userScoreLabel.text = "User score"
         
