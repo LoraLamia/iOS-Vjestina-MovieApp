@@ -9,10 +9,20 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     private var categoryTitles = ["What's popular", "Free to watch", "Trending"]
     private var categoryMovies = [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
     private var categoriesTableView: UITableView!
+    var router: AppRouter!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         buildviews()
+    }
+    
+    init(router: AppRouter) {
+        self.router = router
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func buildviews() {
@@ -59,8 +69,6 @@ extension MovieCategoriesViewController {
 extension MovieCategoriesViewController: MovieCollectionCellDelegate {
     
     func didSelectMovie(movieDetails: MovieDetailsModel) {
-        let movieDetailsViewController = MovieDetailsViewController(urlString: movieDetails.imageUrl)
-        movieDetailsViewController.detailsLabel = movieDetails
-        self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        router.showMovie(movieDetails: movieDetails)
     }
 }

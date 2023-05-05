@@ -1,6 +1,7 @@
 
 import Foundation
 import UIKit
+import MovieAppData
 
 class AppRouter {
     
@@ -16,7 +17,7 @@ class AppRouter {
             title: "Favorites",
             image: UIImage(named: "tabFavorites"),
             selectedImage: UIImage(named: "tabFavoritesSelected"))
-        let movieCategoriesViewController = MovieCategoriesViewController()
+        let movieCategoriesViewController = MovieCategoriesViewController(router: self)
         navigationController.tabBarItem = UITabBarItem(
             title: "Movie List",
             image: UIImage(named: "tabMovieCategories"),
@@ -32,5 +33,10 @@ class AppRouter {
         window?.makeKeyAndVisible()
     }
     
+    func showMovie(movieDetails: MovieDetailsModel) {
+        let movieDetailsViewController = MovieDetailsViewController(urlString: movieDetails.imageUrl)
+        movieDetailsViewController.detailsLabel = movieDetails
+        self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
+    }
     
 }
