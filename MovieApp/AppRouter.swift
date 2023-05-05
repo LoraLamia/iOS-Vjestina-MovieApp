@@ -25,6 +25,7 @@ class AppRouter {
         navigationController.pushViewController(movieCategoriesViewController, animated: true)
         let tabBarController = UITabBarController()
         tabBarController.tabBar.tintColor = UIColor(red: 11/255, green: 37/255, blue: 63/255, alpha: 1)
+        tabBarController.tabBar.barTintColor = .white
         tabBarController.viewControllers = [
             navigationController,
             favoritesViewController

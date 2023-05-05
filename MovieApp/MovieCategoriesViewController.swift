@@ -44,6 +44,7 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     
     private func styleViews() {
         categoriesTableView.separatorStyle = .none
+        self.title = "Movie List"
     }
 }
 
@@ -62,8 +63,6 @@ extension MovieCategoriesViewController {
             return UITableViewCell()
         }
     }
-    
-    
 }
 
 extension MovieCategoriesViewController: MovieCollectionCellDelegate {

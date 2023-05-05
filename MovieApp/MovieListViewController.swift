@@ -40,6 +40,7 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
     }
     
     private func styleViews() {
+        self.title = "Movie List"
         movieListTableView.separatorStyle = .none
         movieListTableView.rowHeight = 142
         view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)

@@ -133,6 +133,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func styleViews() {
+        self.title = "Movie Details"
+        self.navigationController?.navigationBar.backgroundColor = .white
         ratingLabel.text = String(movieDetailsModel.rating)
         userScoreLabel.text = "User score"
         
