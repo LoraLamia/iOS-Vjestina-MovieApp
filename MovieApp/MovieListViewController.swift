@@ -62,7 +62,6 @@ extension MovieListViewController: UITableViewDataSource {
         } else {
             return UITableViewCell()
         }
-        
     }
 
 }

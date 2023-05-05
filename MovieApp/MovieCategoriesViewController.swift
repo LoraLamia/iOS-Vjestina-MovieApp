@@ -4,7 +4,7 @@ import UIKit
 import Kingfisher
 import MovieAppData
 
-class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
+class MovieCategoriesViewController: UIViewController, UITableViewDataSource, MovieCollectionCellDelegate {
     
     private var categoryTitles = ["What's popular", "Free to watch", "Trending"]
     private var categoryMovies = [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
@@ -45,9 +45,16 @@ extension MovieCategoriesViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.identifier, for: indexPath) as? MoviesTableViewCell {
             cell.configure(title: categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
+            cell.delegate = self
             return cell
         } else {
             return UITableViewCell()
         }
-    }    
+    }
+    
+    func didSelectMovie(movieDetails: MovieDetailsModel) {
+        let movieDetailsViewController = MovieDetailsViewController()
+        movieDetailsViewController.detailsLabel = movieDetails
+        self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
+    }
 }

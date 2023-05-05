@@ -19,7 +19,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var collectionView: UICollectionView!
     private var H1StackView: UIStackView!
     private var H3StackView: UIStackView!
-    private var detailsLabel: MovieDetailsModel = {
+    var detailsLabel: MovieDetailsModel = {
         guard let details = MovieUseCase().getDetails(id: 111161) else {
             fatalError("Could not get movie Info!")
         }
