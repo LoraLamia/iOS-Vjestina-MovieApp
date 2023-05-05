@@ -1,9 +1,3 @@
-//
-//  AppDelegate.swift
-//  MovieApp
-//
-//  Created by Ivan Milicevic on 29.03.2023..
-//
 
 import UIKit
 
