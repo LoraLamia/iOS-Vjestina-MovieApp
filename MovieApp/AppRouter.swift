@@ -34,8 +34,7 @@ class AppRouter {
     }
     
     func showMovie(movieDetails: MovieDetailsModel) {
-        let movieDetailsViewController = MovieDetailsViewController(urlString: movieDetails.imageUrl)
-        movieDetailsViewController.detailsLabel = movieDetails
+        let movieDetailsViewController = MovieDetailsViewController(movieDetailsModel: movieDetails)
         self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
     }
     

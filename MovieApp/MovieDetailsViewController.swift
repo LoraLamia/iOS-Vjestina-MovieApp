@@ -7,7 +7,6 @@ import Kingfisher
 class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     private var movieImageView: UIImageView!
-    var urlString: String?
     private var starIconImageView: UIImageView!
     private var ratingLabel: UILabel!
     private var userScoreLabel: UILabel!
@@ -21,16 +20,11 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var collectionView: UICollectionView!
     private var H1StackView: UIStackView!
     private var H3StackView: UIStackView!
-    var detailsLabel: MovieDetailsModel = {
-        guard let details = MovieUseCase().getDetails(id: 111161) else {
-            fatalError("Could not get movie Info!")
-        }
-        return details
-    }()
+    let movieDetailsModel: MovieDetailsModel!
     
-    init(urlString: String) {
+    init(movieDetailsModel: MovieDetailsModel) {
+        self.movieDetailsModel = movieDetailsModel
         super.init(nibName: nil, bundle: nil)
-        self.urlString = urlString
     }
     
     required init?(coder: NSCoder) {
@@ -50,8 +44,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func createViews() {
         movieImageView = UIImageView()
-        guard let urlString = urlString else { return }
-        let url = URL(string: urlString)
+        let url = URL(string: movieDetailsModel.imageUrl)
         movieImageView.kf.setImage(with: url)
         H1StackView = UIStackView()
         ratingLabel = UILabel()
@@ -140,30 +133,30 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func styleViews() {
-        ratingLabel.text = String(detailsLabel.rating)
+        ratingLabel.text = String(movieDetailsModel.rating)
         userScoreLabel.text = "User score"
         
         H1StackView.spacing = 8
 
-        titleLabel.text = detailsLabel.name
+        titleLabel.text = movieDetailsModel.name
         
-        releaseYearLabel.text = "(" + "\(detailsLabel.year)" + ")"
+        releaseYearLabel.text = "(" + "\(movieDetailsModel.year)" + ")"
         
-        let stringCategories = detailsLabel.categories.map {
+        let stringCategories = movieDetailsModel.categories.map {
             categorie in "\(categorie)"
         }.joined(separator: ",")
         categoriesLabel.text = stringCategories
         
-        let hours = detailsLabel.duration / 60
-        let minutes = detailsLabel.duration - hours*60
+        let hours = movieDetailsModel.duration / 60
+        let minutes = movieDetailsModel.duration - hours*60
         durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
         
-        let newDateFormat = convertDateFormat(sourceDateString: detailsLabel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
+        let newDateFormat = convertDateFormat(sourceDateString: movieDetailsModel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
         dateLabel.text = newDateFormat + " (US)"
         
         overViewLabel.text = "Overview"
         
-        descriptionLabel.text = detailsLabel.summary
+        descriptionLabel.text = movieDetailsModel.summary
         
         descriptionLabel.numberOfLines = 0
         
@@ -220,14 +213,14 @@ extension MovieDetailsViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        detailsLabel.crewMembers.count
+        movieDetailsModel.crewMembers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
             for: indexPath) as? CrewCollectionViewCell {
-            let crewMember = detailsLabel.crewMembers[indexPath.row]
+            let crewMember = movieDetailsModel.crewMembers[indexPath.row]
             cell.configure(name: crewMember.name, position: crewMember.role)
             return cell
         } else {
