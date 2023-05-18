@@ -9,7 +9,7 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     private var categoryTitles = ["What's popular", "Free to watch", "Trending"]
     private var categoryMovies = [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
     private var categoriesTableView: UITableView!
-    var router: AppRouter!
+    private var router: AppRouter!
 
     override func viewDidLoad() {
         super.viewDidLoad()

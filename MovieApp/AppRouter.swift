@@ -5,30 +5,33 @@ import MovieAppData
 
 class AppRouter {
     
-    private let navigationController: UINavigationController!
+    private let movieNavigationController: UINavigationController!
+    private let favoritesNavigationController: UINavigationController!
     
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
+    init() {
+        self.movieNavigationController = UINavigationController()
+        self.favoritesNavigationController = UINavigationController()
     }
     
     func setStartScreen(in window: UIWindow?) {
         let favoritesViewController = FavoritesViewController()
-        favoritesViewController.tabBarItem = UITabBarItem(
+        favoritesNavigationController.tabBarItem = UITabBarItem(
             title: "Favorites",
             image: UIImage(named: "tabFavorites"),
             selectedImage: UIImage(named: "tabFavoritesSelected"))
-        let movieCategoriesViewController = MovieListViewController(router: self)
-        navigationController.tabBarItem = UITabBarItem(
+        favoritesNavigationController.pushViewController(favoritesViewController, animated: true)
+        let movieCategoriesViewController = MovieCategoriesViewController(router: self)
+        movieNavigationController.tabBarItem = UITabBarItem(
             title: "Movie List",
             image: UIImage(named: "tabMovieCategories"),
             selectedImage: UIImage(named: "tabMovieCategoriesSelected"))
-        navigationController.pushViewController(movieCategoriesViewController, animated: true)
+        movieNavigationController.pushViewController(movieCategoriesViewController, animated: true)
         let tabBarController = UITabBarController()
         tabBarController.tabBar.tintColor = UIColor(red: 11/255, green: 37/255, blue: 63/255, alpha: 1)
         tabBarController.tabBar.barTintColor = .white
         tabBarController.viewControllers = [
-            navigationController,
-            favoritesViewController
+            movieNavigationController,
+            favoritesNavigationController
         ]
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
@@ -36,7 +39,7 @@ class AppRouter {
     
     func showMovie(movieDetails: MovieDetailsModel) {
         let movieDetailsViewController = MovieDetailsViewController(movieDetailsModel: movieDetails)
-        self.navigationController?.pushViewController(movieDetailsViewController, animated: true)
+        movieNavigationController.pushViewController(movieDetailsViewController, animated: true)
     }
     
 }

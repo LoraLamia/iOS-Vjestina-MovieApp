@@ -15,8 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         else { return }
         
         window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController()
-        router = AppRouter(navigationController: navigationController)
+        router = AppRouter()
         router.setStartScreen(in: window)
     }
 

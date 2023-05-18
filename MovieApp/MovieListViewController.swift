@@ -7,7 +7,10 @@ import Kingfisher
 class MovieListViewController: UIViewController, UITableViewDelegate {
     
     private var movieListTableView: UITableView!
-    var router: AppRouter!
+    private var router: AppRouter!
+    private lazy var movies: [MovieModel] = {
+        return MovieUseCase().allMovies
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,12 +63,11 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
 extension MovieListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MovieUseCase().allMovies.count
+        movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = movieListTableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as? MovieListTableViewCell {
-            let movies = MovieUseCase().allMovies
             cell.configure(title: movies[indexPath.row].name, description: movies[indexPath.row].summary)
             
             KF.url(URL(string: movies[indexPath.row].imageUrl)).set(to: cell.movieImageView)
@@ -76,7 +78,6 @@ extension MovieListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movies = MovieUseCase().allMovies
         guard let movieDetailsModel = MovieUseCase().getDetails(id: movies[indexPath.row].id) else { return }
         router.showMovie(movieDetails: movieDetailsModel)
     }

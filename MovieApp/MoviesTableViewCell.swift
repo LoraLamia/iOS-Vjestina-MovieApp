@@ -4,7 +4,7 @@ import PureLayout
 import MovieAppData
 import Kingfisher
 
-protocol MovieCollectionCellDelegate {
+protocol MovieCollectionCellDelegate: AnyObject {
     func didSelectMovie(movieDetails: MovieDetailsModel)
 }
 
@@ -13,7 +13,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     static let identifier = "CollectionTableViewCell"
     private var categoryLabel: UILabel!
     private var collectionView: UICollectionView!
-    var delegate: MovieCollectionCellDelegate?
+    weak var delegate: MovieCollectionCellDelegate?
     private var movieList: [MovieModel]!
 
     override func awakeFromNib() {
