@@ -4,11 +4,16 @@ import PureLayout
 import MovieAppData
 import Kingfisher
 
-class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource {
+protocol MovieCollectionCellDelegate: AnyObject {
+    func didSelectMovie(movieDetails: MovieDetailsModel)
+}
+
+class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
     static let identifier = "CollectionTableViewCell"
     private var categoryLabel: UILabel!
     private var collectionView: UICollectionView!
+    weak var delegate: MovieCollectionCellDelegate?
     private var movieList: [MovieModel]!
 
     override func awakeFromNib() {
@@ -69,6 +74,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource {
             collectionViewLayout: flowLayout)
         collectionView.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: MovieCollectionViewCell.identifier)
         collectionView.dataSource = self
+        collectionView.delegate = self
     }
 
 }
@@ -89,5 +95,10 @@ extension MoviesTableViewCell {
         } else {
             return UICollectionViewCell()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let details = MovieUseCase().getDetails(id: movieList[indexPath.row].id) else { return }
+        delegate?.didSelectMovie(movieDetails: details)
     }
 }

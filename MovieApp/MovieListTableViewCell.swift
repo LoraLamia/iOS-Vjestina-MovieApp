@@ -67,7 +67,7 @@ class MovieListTableViewCell: UITableViewCell {
         contentView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
         
         movieImageView.layer.cornerRadius = 10
-        movieImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        movieImageView.layer.masksToBounds = true
         
         containerView.layer.cornerRadius = 10
         containerView.layer.shadowColor = UIColor.black.cgColor
@@ -75,9 +75,10 @@ class MovieListTableViewCell: UITableViewCell {
         containerView.layer.shadowOffset = CGSize(width: 0, height: 4)
         containerView.layer.shadowRadius = 2
         containerView.backgroundColor = .white
+        containerView.clipsToBounds = true
         
         movieImageView.contentMode = .scaleAspectFill
-        movieImageView.clipsToBounds = true
+        movieImageView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMinXMaxYCorner]
         
         self.selectionStyle = .none
     }

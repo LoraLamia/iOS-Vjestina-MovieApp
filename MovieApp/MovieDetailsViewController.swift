@@ -2,6 +2,7 @@
 import PureLayout
 import UIKit
 import MovieAppData
+import Kingfisher
 
 class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -19,17 +20,77 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var collectionView: UICollectionView!
     private var H1StackView: UIStackView!
     private var H3StackView: UIStackView!
-    private var detailsLabel: MovieDetailsModel = {
-        guard let details = MovieUseCase().getDetails(id: 111161) else {
-            fatalError("Could not get movie Info!")
-        }
-        return details
-    }()
-
+    let movieDetailsModel: MovieDetailsModel!
+    
+    init(movieDetailsModel: MovieDetailsModel) {
+        self.movieDetailsModel = movieDetailsModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         buildViews()
+        prepareAnimation()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        performAnimation()
+    }
+    
+    private func prepareAnimation() {
+        titleLabel.transform = titleLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        ratingLabel.transform = ratingLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        userScoreLabel.transform = userScoreLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        releaseYearLabel.transform = releaseYearLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        dateLabel.transform = dateLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        categoriesLabel.transform = categoriesLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        durationLabel.transform = durationLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        descriptionLabel.transform = descriptionLabel
+            .transform
+            .translatedBy(x: -view.frame.width, y: 0)
+        collectionView.alpha = 0
+    }
+    
+    private func performAnimation() {
+        UIView.animate(
+            withDuration: 0.2,
+            delay: 0,
+            animations: {
+                self.titleLabel.transform = .identity
+                self.ratingLabel.transform = .identity
+                self.userScoreLabel.transform = .identity
+                self.releaseYearLabel.transform = .identity
+                self.dateLabel.transform = .identity
+                self.categoriesLabel.transform = .identity
+                self.durationLabel.transform = .identity
+                self.descriptionLabel.transform = .identity
+            }, completion: { _ in
+                UIView.animate(
+                    withDuration: 0.3,
+                    delay: 0.3,
+                    animations: {
+                        self.collectionView.alpha = 1
+                    })
+            })
     }
     
     private func buildViews() {
@@ -39,8 +100,9 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func createViews() {
-        let movieImage = UIImage(named: "movieDetails")
-        movieImageView = UIImageView(image: movieImage)
+        movieImageView = UIImageView()
+        let url = URL(string: movieDetailsModel.imageUrl)
+        movieImageView.kf.setImage(with: url)
         H1StackView = UIStackView()
         ratingLabel = UILabel()
         titleLabel = UILabel()
@@ -66,8 +128,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         
         movieImageView.autoPinEdge(toSuperviewEdge: .leading)
         movieImageView.autoPinEdge(toSuperviewEdge: .trailing)
-        movieImageView.autoPinEdge(toSuperviewEdge: .top)
-        movieImageView.autoSetDimension(.height, toSize: 327)
+        movieImageView.autoPinEdge(toSuperviewSafeArea: .top)
+        movieImageView.autoSetDimension(.height, toSize: 278)
         
         userScoreLabel = UILabel()
         
@@ -79,12 +141,13 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         H1StackView.autoPinEdge(toSuperviewSafeArea: .top, withInset: 90)
         
         let H2StackView = UIStackView(arrangedSubviews: [titleLabel, releaseYearLabel])
+        H2StackView.spacing = 8
         
         movieImageView.addSubview(H2StackView)
         
         H2StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         H2StackView.autoPinEdge(.top, to: .bottom, of: H1StackView, withOffset: 16)
-        H2StackView.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 20)
+        H2StackView.autoPinEdge(toSuperviewSafeArea: .trailing, withInset: 20, relation: .greaterThanOrEqual)
         
         movieImageView.addSubview(dateLabel)
         
@@ -128,30 +191,31 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func styleViews() {
-        ratingLabel.text = String(detailsLabel.rating)
+        self.title = "Movie Details"
+        ratingLabel.text = String(movieDetailsModel.rating)
         userScoreLabel.text = "User score"
         
         H1StackView.spacing = 8
 
-        titleLabel.text = detailsLabel.name
+        titleLabel.text = movieDetailsModel.name
         
-        releaseYearLabel.text = "(" + "\(detailsLabel.year)" + ")"
+        releaseYearLabel.text = "(" + "\(movieDetailsModel.year)" + ")"
         
-        let stringCategories = detailsLabel.categories.map {
+        let stringCategories = movieDetailsModel.categories.map {
             categorie in "\(categorie)"
         }.joined(separator: ",")
         categoriesLabel.text = stringCategories
         
-        let hours = detailsLabel.duration / 60
-        let minutes = detailsLabel.duration - hours*60
+        let hours = movieDetailsModel.duration / 60
+        let minutes = movieDetailsModel.duration - hours*60
         durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
         
-        let newDateFormat = convertDateFormat(sourceDateString: detailsLabel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
+        let newDateFormat = convertDateFormat(sourceDateString: movieDetailsModel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
         dateLabel.text = newDateFormat + " (US)"
         
         overViewLabel.text = "Overview"
         
-        descriptionLabel.text = detailsLabel.summary
+        descriptionLabel.text = movieDetailsModel.summary
         
         descriptionLabel.numberOfLines = 0
         
@@ -208,14 +272,14 @@ extension MovieDetailsViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        detailsLabel.crewMembers.count
+        movieDetailsModel.crewMembers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
             for: indexPath) as? CrewCollectionViewCell {
-            let crewMember = detailsLabel.crewMembers[indexPath.row]
+            let crewMember = movieDetailsModel.crewMembers[indexPath.row]
             cell.configure(name: crewMember.name, position: crewMember.role)
             return cell
         } else {
