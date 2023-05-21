@@ -1,17 +1,14 @@
 
 import UIKit
 import PureLayout
-import MovieAppData
 import Kingfisher
 
 class MovieListViewController: UIViewController, UITableViewDelegate {
     
     private var movieListTableView: UITableView!
+    
     private var router: AppRouter!
     private var viewModel: MovieListViewModel!
-    private lazy var movies: [MovieModel] = {
-        return MovieUseCase().allMovies
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,20 +56,19 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
         movieListTableView.separatorStyle = .none
         movieListTableView.rowHeight = 142
         view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
+        movieListTableView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
     }
 }
 
 extension MovieListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        movies.count
+        viewModel.movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = movieListTableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as? MovieListTableViewCell {
-            cell.configure(title: movies[indexPath.row].name, description: movies[indexPath.row].summary)
-            
-            KF.url(URL(string: movies[indexPath.row].imageUrl)).set(to: cell.movieImageView)
+            cell.configure(with: viewModel.movies[indexPath.row])
             return cell
         } else {
             return UITableViewCell()
@@ -80,7 +76,10 @@ extension MovieListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let movieDetailsModel = MovieUseCase().getDetails(id: movies[indexPath.row].id) else { return }
-        router.showMovie(movieDetails: movieDetailsModel)
+        let movieDetails = viewModel.getMovieDetails(rowIndex: indexPath.row)
+        
+        if let movieDetails = movieDetails {
+            router.showMovie(movieDetails: movieDetails)
+        }
     }
 }
