@@ -8,6 +8,7 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
     
     private var movieListTableView: UITableView!
     private var router: AppRouter!
+    private var viewModel: MovieListViewModel!
     private lazy var movies: [MovieModel] = {
         return MovieUseCase().allMovies
     }()
@@ -19,7 +20,8 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
         tableViewSetUp()
     }
     
-    init(router: AppRouter) {
+    init(router: AppRouter, viewModel: MovieListViewModel) {
+        self.viewModel = viewModel
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }

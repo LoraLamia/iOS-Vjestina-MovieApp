@@ -10,13 +10,15 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     private var categoryMovies = [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
     private var categoriesTableView: UITableView!
     private var router: AppRouter!
+    private var viewModel: MovieCategoriesViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         buildviews()
     }
     
-    init(router: AppRouter) {
+    init(router: AppRouter, viewModel: MovieCategoriesViewModel) {
+        self.viewModel = viewModel
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }

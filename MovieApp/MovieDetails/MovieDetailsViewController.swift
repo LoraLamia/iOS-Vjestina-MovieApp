@@ -21,8 +21,10 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var H1StackView: UIStackView!
     private var H3StackView: UIStackView!
     let movieDetailsModel: MovieDetailsModel!
+    private var viewModel: MovieDetailsViewModel!
     
-    init(movieDetailsModel: MovieDetailsModel) {
+    init(movieDetailsModel: MovieDetailsModel, viewModel: MovieDetailsViewModel) {
+        self.viewModel = viewModel
         self.movieDetailsModel = movieDetailsModel
         super.init(nibName: nil, bundle: nil)
     }

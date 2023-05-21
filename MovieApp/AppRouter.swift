@@ -14,13 +14,13 @@ class AppRouter {
     }
     
     func setStartScreen(in window: UIWindow?) {
-        let favoritesViewController = FavoritesViewController()
+        let favoritesViewController = FavoritesViewController(viewModel: FavoritesViewModel())
         favoritesNavigationController.tabBarItem = UITabBarItem(
             title: "Favorites",
             image: UIImage(named: "tabFavorites"),
             selectedImage: UIImage(named: "tabFavoritesSelected"))
         favoritesNavigationController.pushViewController(favoritesViewController, animated: true)
-        let movieCategoriesViewController = MovieCategoriesViewController(router: self)
+        let movieCategoriesViewController = MovieCategoriesViewController(router: self, viewModel: MovieCategoriesViewModel())
         movieNavigationController.tabBarItem = UITabBarItem(
             title: "Movie List",
             image: UIImage(named: "tabMovieCategories"),
@@ -38,7 +38,7 @@ class AppRouter {
     }
     
     func showMovie(movieDetails: MovieDetailsModel) {
-        let movieDetailsViewController = MovieDetailsViewController(movieDetailsModel: movieDetails)
+        let movieDetailsViewController = MovieDetailsViewController(movieDetailsModel: movieDetails, viewModel: MovieDetailsViewModel())
         movieNavigationController.pushViewController(movieDetailsViewController, animated: true)
     }
     
