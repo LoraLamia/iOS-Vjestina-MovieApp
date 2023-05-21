@@ -1,7 +1,5 @@
-
 import PureLayout
 import UIKit
-import MovieAppData
 import Kingfisher
 
 class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -20,12 +18,10 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var collectionView: UICollectionView!
     private var H1StackView: UIStackView!
     private var H3StackView: UIStackView!
-    let movieDetailsModel: MovieDetailsModel!
     private var viewModel: MovieDetailsViewModel!
     
-    init(movieDetailsModel: MovieDetailsModel, viewModel: MovieDetailsViewModel) {
+    init(viewModel: MovieDetailsViewModel) {
         self.viewModel = viewModel
-        self.movieDetailsModel = movieDetailsModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -103,7 +99,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func createViews() {
         movieImageView = UIImageView()
-        let url = URL(string: movieDetailsModel.imageUrl)
+        let url = URL(string: viewModel.movieDetails.imageUrl)
         movieImageView.kf.setImage(with: url)
         H1StackView = UIStackView()
         ratingLabel = UILabel()
@@ -194,30 +190,30 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func styleViews() {
         self.title = "Movie Details"
-        ratingLabel.text = String(movieDetailsModel.rating)
+        ratingLabel.text = String(viewModel.movieDetails.rating)
         userScoreLabel.text = "User score"
         
         H1StackView.spacing = 8
 
-        titleLabel.text = movieDetailsModel.name
+        titleLabel.text = viewModel.movieDetails.name
         
-        releaseYearLabel.text = "(" + "\(movieDetailsModel.year)" + ")"
+        releaseYearLabel.text = "(" + "\(viewModel.movieDetails.year)" + ")"
         
-        let stringCategories = movieDetailsModel.categories.map {
+        let stringCategories = viewModel.movieDetails.categories.map {
             categorie in "\(categorie)"
         }.joined(separator: ",")
         categoriesLabel.text = stringCategories
         
-        let hours = movieDetailsModel.duration / 60
-        let minutes = movieDetailsModel.duration - hours*60
+        let hours = viewModel.movieDetails.duration / 60
+        let minutes = viewModel.movieDetails.duration - hours*60
         durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
         
-        let newDateFormat = convertDateFormat(sourceDateString: movieDetailsModel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
+        let newDateFormat = convertDateFormat(sourceDateString: viewModel.movieDetails.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
         dateLabel.text = newDateFormat + " (US)"
         
         overViewLabel.text = "Overview"
         
-        descriptionLabel.text = movieDetailsModel.summary
+        descriptionLabel.text = viewModel.movieDetails.summary
         
         descriptionLabel.numberOfLines = 0
         
@@ -274,14 +270,14 @@ extension MovieDetailsViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        movieDetailsModel.crewMembers.count
+        viewModel.movieDetails.crewMembers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
             for: indexPath) as? CrewCollectionViewCell {
-            let crewMember = movieDetailsModel.crewMembers[indexPath.row]
+            let crewMember = viewModel.movieDetails.crewMembers[indexPath.row]
             cell.configure(name: crewMember.name, position: crewMember.role)
             return cell
         } else {
