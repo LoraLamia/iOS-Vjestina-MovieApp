@@ -1,4 +1,3 @@
-
 import PureLayout
 import UIKit
 import Kingfisher
@@ -6,9 +5,8 @@ import MovieAppData
 
 class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     
-    private var categoryTitles = ["What's popular", "Free to watch", "Trending"]
-    private var categoryMovies = [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
     private var categoriesTableView: UITableView!
+    
     private var router: AppRouter!
     private var viewModel: MovieCategoriesViewModel!
 
@@ -53,12 +51,12 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
 extension MovieCategoriesViewController {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        viewModel.categoryMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.identifier, for: indexPath) as? MoviesTableViewCell {
-            cell.configure(title: categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
+            cell.configure(title: viewModel.categoryTitles[indexPath.row], movieList: viewModel.categoryMovies[indexPath.row])
             cell.delegate = self
             return cell
         } else {
@@ -69,7 +67,11 @@ extension MovieCategoriesViewController {
 
 extension MovieCategoriesViewController: MovieCollectionCellDelegate {
     
-    func didSelectMovie(movieDetails: MovieDetailsModel) {
-        router.showMovie(movieDetails: movieDetails)
+    func didSelectMovie(id: Int) {
+        let movieDetails = viewModel.getMovieDetails(id: id)
+
+        if let movieDetails = movieDetails {
+            router.showMovie(movieDetails: movieDetails)
+        }
     }
 }

@@ -5,7 +5,7 @@ import MovieAppData
 import Kingfisher
 
 protocol MovieCollectionCellDelegate: AnyObject {
-    func didSelectMovie(movieDetails: MovieDetailsModel)
+    func didSelectMovie(id: Int)
 }
 
 class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -98,7 +98,6 @@ extension MoviesTableViewCell {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let details = MovieUseCase().getDetails(id: movieList[indexPath.row].id) else { return }
-        delegate?.didSelectMovie(movieDetails: details)
+        delegate?.didSelectMovie(id: movieList[indexPath.row].id)
     }
 }
