@@ -90,7 +90,7 @@ extension MoviesTableViewCell {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as? MovieCollectionViewCell {
-            KF.url(URL(string: movieList[indexPath.row].imageUrl)).set(to: cell.movieImageView)
+            cell.configure(imageUrl: movieList[indexPath.row].imageUrl)
             return cell
         } else {
             return UICollectionViewCell()

@@ -68,7 +68,7 @@ extension MovieListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = movieListTableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as? MovieListTableViewCell {
-            cell.configure(with: viewModel.movies[indexPath.row])
+            cell.configure(movie: viewModel.movies[indexPath.row])
             return cell
         } else {
             return UITableViewCell()

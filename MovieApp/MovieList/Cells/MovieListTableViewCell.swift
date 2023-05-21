@@ -89,7 +89,7 @@ class MovieListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with movie: MovieModel) {
+    func configure(movie: MovieModel) {
         self.movieTitleLabel.text = movie.name
         self.movieTitleLabel.font = UIFont.boldSystemFont(ofSize: 16)
         self.movieDescriptionLabel.text = movie.summary

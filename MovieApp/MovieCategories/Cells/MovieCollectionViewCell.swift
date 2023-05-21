@@ -1,13 +1,14 @@
 
 import UIKit
 import PureLayout
+import Kingfisher
 
 class MovieCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "MovieCollectionViewCell"
     
     private var favoriteIconImageView: UIImageView!
-    var movieImageView: UIImageView!
+    private var movieImageView: UIImageView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,6 +46,10 @@ class MovieCollectionViewCell: UICollectionViewCell {
         movieImageView.layer.cornerRadius = 10
         movieImageView.layer.masksToBounds = true
         contentView.layer.cornerRadius = 10
+    }
+    
+    func configure(imageUrl: String) {
+        self.movieImageView.kf.setImage(with: URL(string: imageUrl))
     }
     
     override func prepareForReuse() {
