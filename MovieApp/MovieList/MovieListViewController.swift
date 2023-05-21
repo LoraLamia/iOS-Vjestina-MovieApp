@@ -2,6 +2,7 @@
 import UIKit
 import PureLayout
 import Kingfisher
+import Combine
 
 class MovieListViewController: UIViewController, UITableViewDelegate {
     
@@ -9,13 +10,9 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
     
     private var router: AppRouter!
     private var viewModel: MovieListViewModel!
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        buildViews()
-        tableViewSetUp()
-    }
+    
+    private var movies: [Movie] = []
+    private var disposeables = Set<AnyCancellable>()
     
     init(router: AppRouter, viewModel: MovieListViewModel) {
         self.viewModel = viewModel
@@ -25,6 +22,26 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        buildViews()
+        tableViewSetUp()
+        
+        viewModel.fetchMovies()
+        
+        viewModel
+            .$movies
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] movies in
+                guard let self = self else { return }
+                
+                self.movies = movies
+                self.movieListTableView.reloadData()
+            }
+            .store(in: &disposeables)
     }
     
     private func tableViewSetUp() {
@@ -58,17 +75,18 @@ class MovieListViewController: UIViewController, UITableViewDelegate {
         view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
         movieListTableView.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1)
     }
+    
 }
 
 extension MovieListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.movies.count
+        movies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = movieListTableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as? MovieListTableViewCell {
-            cell.configure(movie: viewModel.movies[indexPath.row])
+            cell.configure(movie: movies[indexPath.row])
             return cell
         } else {
             return UITableViewCell()
