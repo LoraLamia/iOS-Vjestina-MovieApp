@@ -1,4 +1,3 @@
-import MovieAppData
 import Foundation
 
 class MovieDetailsViewModel {

@@ -1,5 +1,4 @@
 import Foundation
-import MovieAppData
 
 class MovieListViewModel {
     
@@ -23,12 +22,5 @@ class MovieListViewModel {
             self.movies = freeToWatchMovies + popularMovies + trendingMovies
         }
     }
-    
-    
-    
-//    func getMovieDetails(rowIndex: Int) -> MovieDetailsModel? {
-//        let id = movies[rowIndex].id
-//        return MovieUseCase().getDetails(id: id)
-//    }
     
 }

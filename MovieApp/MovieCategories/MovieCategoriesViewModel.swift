@@ -1,5 +1,4 @@
 import Foundation
-import MovieAppData
 
 class MovieCategoriesViewModel {
     
@@ -11,10 +10,6 @@ class MovieCategoriesViewModel {
     }
     
     let categoryTitles = ["What's popular", "Free to watch", "Trending"]
-    
-//    func getMovieDetails(id: Int) -> MovieDetailsModel? {
-//        return MovieUseCase().getDetails(id: id)
-//    }
     
     func getCategoryMovies() {
         Task {
