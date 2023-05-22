@@ -1,7 +1,6 @@
 import PureLayout
 import UIKit
 import Kingfisher
-import MovieAppData
 import Combine
 
 class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
@@ -84,10 +83,6 @@ extension MovieCategoriesViewController {
 extension MovieCategoriesViewController: MovieCollectionCellDelegate {
     
     func didSelectMovie(id: Int) {
-        let movieDetails = viewModel.getMovieDetails(id: id)
-
-        if let movieDetails = movieDetails {
-            router.showMovie(movieDetails: movieDetails) //tu ce primit id
-        }
+        router.showMovie(id: id)
     }
 }

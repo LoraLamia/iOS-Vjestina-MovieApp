@@ -26,9 +26,9 @@ class MovieListViewModel {
     
     
     
-    func getMovieDetails(rowIndex: Int) -> MovieDetailsModel? {
-        let id = movies[rowIndex].id
-        return MovieUseCase().getDetails(id: id)
-    }
+//    func getMovieDetails(rowIndex: Int) -> MovieDetailsModel? {
+//        let id = movies[rowIndex].id
+//        return MovieUseCase().getDetails(id: id)
+//    }
     
 }

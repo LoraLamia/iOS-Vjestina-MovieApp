@@ -94,10 +94,6 @@ extension MovieListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movieDetails = viewModel.getMovieDetails(rowIndex: indexPath.row)
-        
-        if let movieDetails = movieDetails {
-            router.showMovie(movieDetails: movieDetails)
-        }
+        router.showMovie(id: movies[indexPath.row].id)
     }
 }

@@ -39,9 +39,9 @@ class AppRouter {
         window?.makeKeyAndVisible()
     }
     
-    func showMovie(movieDetails: MovieDetailsModel) {
+    func showMovie(id: Int) {
         
-        let movieDetailsViewController = MovieDetailsViewController(viewModel: MovieDetailsViewModel(movieDetails: movieDetails))
+        let movieDetailsViewController = MovieDetailsViewController(viewModel: MovieDetailsViewModel(id: id, moviesUseCase: movieUseCase))
         movieNavigationController.pushViewController(movieDetailsViewController, animated: true)
     }
     

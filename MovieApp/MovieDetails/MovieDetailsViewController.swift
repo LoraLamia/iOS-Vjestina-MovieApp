@@ -1,6 +1,7 @@
 import PureLayout
 import UIKit
 import Kingfisher
+import Combine
 
 class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
@@ -19,6 +20,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var H1StackView: UIStackView!
     private var H3StackView: UIStackView!
     private var viewModel: MovieDetailsViewModel!
+    private var disposeables = Set<AnyCancellable>()
+    private var movieDetails: MovieDetails = MovieDetails()
     
     init(viewModel: MovieDetailsViewModel) {
         self.viewModel = viewModel
@@ -31,8 +34,21 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        buildViews()
-        prepareAnimation()
+//        buildViews()
+//        prepareAnimation()
+        
+        viewModel.getMovieDetails()
+        
+        viewModel
+            .$movieDetails
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] movie in
+                guard let self = self else { return }
+                self.movieDetails = movie
+                self.buildViews()
+                self.prepareAnimation()
+            }
+            .store(in: &disposeables)
     }
     
     override func viewDidAppear(_ animated: Bool) {

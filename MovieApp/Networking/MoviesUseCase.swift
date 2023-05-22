@@ -35,8 +35,15 @@ class MoviesUseCase {
         return movies ?? []
     }
     
-    func getMovieDetails(id: Int) -> [MovieDetails] {
-        return []
+    func getMovieDetails(id: Int) async -> MovieDetails? {
+        guard
+            let request = createRequest(for: "https://five-ios-api.herokuapp.com/api/v1/movie/\(id)/details")
+        else { return nil }
+        
+        async let (data, _) = try await URLSession.shared.data(for: request)
+        let movies = try? await JSONDecoder().decode(MovieDetails.self, from: data)
+
+        return movies ?? nil
     }
     
     private func createRequest(for urlString: String) -> URLRequest? {
