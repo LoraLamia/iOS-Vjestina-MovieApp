@@ -34,8 +34,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        buildViews()
-//        prepareAnimation()
+        buildViews()
+        prepareAnimation()
         
         viewModel.getMovieDetails()
         
@@ -45,8 +45,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
             .sink { [weak self] movie in
                 guard let self = self else { return }
                 self.movieDetails = movie
-                self.buildViews()
-                self.prepareAnimation()
+                self.setData()
             }
             .store(in: &disposeables)
     }
@@ -115,8 +114,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     
     private func createViews() {
         movieImageView = UIImageView()
-        let url = URL(string: viewModel.movieDetails.imageUrl)
-        movieImageView.kf.setImage(with: url)
         H1StackView = UIStackView()
         ratingLabel = UILabel()
         titleLabel = UILabel()
@@ -205,31 +202,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func styleViews() {
-        self.title = "Movie Details"
-        ratingLabel.text = String(viewModel.movieDetails.rating)
-        userScoreLabel.text = "User score"
-        
         H1StackView.spacing = 8
-
-        titleLabel.text = viewModel.movieDetails.name
-        
-        releaseYearLabel.text = "(" + "\(viewModel.movieDetails.year)" + ")"
-        
-        let stringCategories = viewModel.movieDetails.categories.map {
-            categorie in "\(categorie)"
-        }.joined(separator: ",")
-        categoriesLabel.text = stringCategories
-        
-        let hours = viewModel.movieDetails.duration / 60
-        let minutes = viewModel.movieDetails.duration - hours*60
-        durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
-        
-        let newDateFormat = convertDateFormat(sourceDateString: viewModel.movieDetails.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
-        dateLabel.text = newDateFormat + " (US)"
-        
-        overViewLabel.text = "Overview"
-        
-        descriptionLabel.text = viewModel.movieDetails.summary
         
         descriptionLabel.numberOfLines = 0
         
@@ -263,6 +236,29 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
 
         overViewLabel.font = UIFont.boldSystemFont(ofSize: 20)
         overViewLabel.textColor = .black
+    }
+    
+    private func setData() {
+        self.title = "Movie Details"
+        userScoreLabel.text = "User score"
+        ratingLabel.text = String(movieDetails.rating)
+        titleLabel.text = movieDetails.name
+        releaseYearLabel.text = "(" + "\(movieDetails.year)" + ")"
+        let stringCategories = movieDetails.categories.map {
+            categorie in "\(categorie)"
+        }.joined(separator: ",")
+        categoriesLabel.text = stringCategories
+        let hours = movieDetails.duration / 60
+        let minutes = movieDetails.duration - hours*60
+        durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
+        
+        let newDateFormat = convertDateFormat(sourceDateString: movieDetails.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
+        dateLabel.text = newDateFormat + " (US)"
+        overViewLabel.text = "Overview"
+        descriptionLabel.text = movieDetails.summary
+        let url = URL(string: movieDetails.imageUrl)
+        movieImageView.kf.setImage(with: url)
+        collectionView.reloadData()
     }
     
     private func convertDateFormat(sourceDateString : String, sourceDateFormat : String, destinationFormat : String) -> String{
