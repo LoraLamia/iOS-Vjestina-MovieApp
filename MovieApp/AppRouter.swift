@@ -22,7 +22,7 @@ class AppRouter {
             image: UIImage(named: "tabFavorites"),
             selectedImage: UIImage(named: "tabFavoritesSelected"))
         favoritesNavigationController.pushViewController(favoritesViewController, animated: true)
-        let movieCategoriesViewController = MovieListViewController(router: self, viewModel: MovieListViewModel(movieUseCase: movieUseCase))
+        let movieCategoriesViewController = MovieCategoriesViewController(router: self, viewModel: MovieCategoriesViewModel(moviesUseCase: movieUseCase))
         movieNavigationController.tabBarItem = UITabBarItem(
             title: "Movie List",
             image: UIImage(named: "tabMovieCategories"),

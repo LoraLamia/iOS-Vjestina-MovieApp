@@ -14,7 +14,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     private var categoryLabel: UILabel!
     private var collectionView: UICollectionView!
     weak var delegate: MovieCollectionCellDelegate?
-    private var movieList: [MovieModel]!
+    private var movieList: [Movie]!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,7 +36,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(title: String, movieList: [MovieModel]) {
+    func configure(title: String, movieList: [Movie]) {
         categoryLabel.text = title
         self.movieList = movieList
     }

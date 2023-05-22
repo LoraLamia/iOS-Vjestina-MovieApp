@@ -4,10 +4,7 @@ import MovieAppData
 class MovieCategoriesViewModel {
     
     private let moviesUseCase: MoviesUseCase!
-    
-    lazy var categoryMovies: [[MovieModel]] = {
-        return [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
-    }()
+    @Published var categoryMovies: [[Movie]] = []
     
     init(moviesUseCase: MoviesUseCase) {
         self.moviesUseCase = moviesUseCase
@@ -17,6 +14,20 @@ class MovieCategoriesViewModel {
     
     func getMovieDetails(id: Int) -> MovieDetailsModel? {
         return MovieUseCase().getDetails(id: id)
+    }
+    
+    func getCategoryMovies() {
+        Task {
+            var popularMovies = await moviesUseCase.getPopularMovies(criteria: "FOR_RENT")
+            popularMovies.append(contentsOf: await moviesUseCase.getPopularMovies(criteria: "IN_THEATERS"))
+            popularMovies.append(contentsOf: await moviesUseCase.getPopularMovies(criteria: "ON_TV"))
+            popularMovies.append(contentsOf: await moviesUseCase.getPopularMovies(criteria: "STREAMING"))
+            var freeToWatchMovies = await moviesUseCase.getFreeToWatchMovies(criteria: "MOVIE")
+            freeToWatchMovies.append(contentsOf: await moviesUseCase.getFreeToWatchMovies(criteria: "TV_SHOW"))
+            var trendingMovies = await moviesUseCase.getTrendingMovies(criteria: "THIS_WEEK")
+            trendingMovies.append(contentsOf: await moviesUseCase.getTrendingMovies(criteria: "TODAY"))
+            self.categoryMovies = [popularMovies, freeToWatchMovies, trendingMovies]
+        }
     }
     
 }

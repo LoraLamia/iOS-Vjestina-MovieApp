@@ -2,6 +2,7 @@ import PureLayout
 import UIKit
 import Kingfisher
 import MovieAppData
+import Combine
 
 class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     
@@ -9,10 +10,25 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     
     private var router: AppRouter!
     private var viewModel: MovieCategoriesViewModel!
+    private var disposeables = Set<AnyCancellable>()
+    private var categoryMovies: [[Movie]] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         buildviews()
+        
+        viewModel.getCategoryMovies()
+        
+        viewModel
+            .$categoryMovies
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] movies in
+                guard let self = self else { return }
+                
+                self.categoryMovies = movies
+                self.categoriesTableView.reloadData()
+            }
+            .store(in: &disposeables)
     }
     
     init(router: AppRouter, viewModel: MovieCategoriesViewModel) {
@@ -56,7 +72,7 @@ extension MovieCategoriesViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.identifier, for: indexPath) as? MoviesTableViewCell {
-            cell.configure(title: viewModel.categoryTitles[indexPath.row], movieList: viewModel.categoryMovies[indexPath.row])
+            cell.configure(title: viewModel.categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
             cell.delegate = self
             return cell
         } else {
@@ -71,7 +87,7 @@ extension MovieCategoriesViewController: MovieCollectionCellDelegate {
         let movieDetails = viewModel.getMovieDetails(id: id)
 
         if let movieDetails = movieDetails {
-            router.showMovie(movieDetails: movieDetails)
+            router.showMovie(movieDetails: movieDetails) //tu ce primit id
         }
     }
 }
