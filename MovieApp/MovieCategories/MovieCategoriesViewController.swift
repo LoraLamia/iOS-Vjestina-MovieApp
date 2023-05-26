@@ -1,22 +1,37 @@
-
 import PureLayout
 import UIKit
 import Kingfisher
-import MovieAppData
+import Combine
 
 class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     
-    private var categoryTitles = ["What's popular", "Free to watch", "Trending"]
-    private var categoryMovies = [MovieUseCase().popularMovies, MovieUseCase().freeToWatchMovies, MovieUseCase().trendingMovies]
     private var categoriesTableView: UITableView!
+    
     private var router: AppRouter!
+    private var viewModel: MovieCategoriesViewModel!
+    private var disposeables = Set<AnyCancellable>()
+    private var categoryMovies: [[Movie]] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         buildviews()
+        
+        viewModel.getCategoryMovies()
+        
+        viewModel
+            .$categoryMovies
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] movies in
+                guard let self = self else { return }
+                
+                self.categoryMovies = movies
+                self.categoriesTableView.reloadData()
+            }
+            .store(in: &disposeables)
     }
     
-    init(router: AppRouter) {
+    init(router: AppRouter, viewModel: MovieCategoriesViewModel) {
+        self.viewModel = viewModel
         self.router = router
         super.init(nibName: nil, bundle: nil)
     }
@@ -51,12 +66,12 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
 extension MovieCategoriesViewController {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        3
+        viewModel.categoryMovies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.identifier, for: indexPath) as? MoviesTableViewCell {
-            cell.configure(title: categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
+            cell.configure(title: viewModel.categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
             cell.delegate = self
             return cell
         } else {
@@ -67,7 +82,7 @@ extension MovieCategoriesViewController {
 
 extension MovieCategoriesViewController: MovieCollectionCellDelegate {
     
-    func didSelectMovie(movieDetails: MovieDetailsModel) {
-        router.showMovie(movieDetails: movieDetails)
+    func didSelectMovie(id: Int) {
+        router.showMovie(id: id)
     }
 }

@@ -10,6 +10,16 @@ class LogInViewController: UIViewController {
     private var emailTextField: UITextField!
     private var passwordTextField: UITextField!
     private var signInButton: UIButton!
+    private var viewModel: LogInViewModel!
+    
+    init(viewModel: LogInViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

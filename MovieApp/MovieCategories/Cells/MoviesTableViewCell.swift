@@ -5,7 +5,7 @@ import MovieAppData
 import Kingfisher
 
 protocol MovieCollectionCellDelegate: AnyObject {
-    func didSelectMovie(movieDetails: MovieDetailsModel)
+    func didSelectMovie(id: Int)
 }
 
 class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -14,7 +14,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     private var categoryLabel: UILabel!
     private var collectionView: UICollectionView!
     weak var delegate: MovieCollectionCellDelegate?
-    private var movieList: [MovieModel]!
+    private var movieList: [Movie]!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,7 +36,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(title: String, movieList: [MovieModel]) {
+    func configure(title: String, movieList: [Movie]) {
         categoryLabel.text = title
         self.movieList = movieList
     }
@@ -90,7 +90,7 @@ extension MoviesTableViewCell {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as? MovieCollectionViewCell {
-            KF.url(URL(string: movieList[indexPath.row].imageUrl)).set(to: cell.movieImageView)
+            cell.configure(imageUrl: movieList[indexPath.row].imageUrl)
             return cell
         } else {
             return UICollectionViewCell()
@@ -98,7 +98,6 @@ extension MoviesTableViewCell {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let details = MovieUseCase().getDetails(id: movieList[indexPath.row].id) else { return }
-        delegate?.didSelectMovie(movieDetails: details)
+        delegate?.didSelectMovie(id: movieList[indexPath.row].id)
     }
 }

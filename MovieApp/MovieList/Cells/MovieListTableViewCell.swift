@@ -1,11 +1,13 @@
 
 import UIKit
 import PureLayout
+import Kingfisher
+import MovieAppData
 
 class MovieListTableViewCell: UITableViewCell {
     
     static let identifier = "MovieListTableViewCell"
-    var movieImageView: UIImageView!
+    private var movieImageView: UIImageView!
     private var movieTitleLabel: UILabel!
     private var movieDescriptionLabel: UILabel!
     private var containerView: UIView!
@@ -87,12 +89,13 @@ class MovieListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(title: String, description: String) {
-        self.movieTitleLabel.text = title
+    func configure(movie: Movie) {
+        self.movieTitleLabel.text = movie.name
         self.movieTitleLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        self.movieDescriptionLabel.text = description
+        self.movieDescriptionLabel.text = movie.summary
         self.movieDescriptionLabel.font = UIFont.systemFont(ofSize: 14)
         self.movieDescriptionLabel.textColor = UIColor(red: 130/255, green: 130/255, blue: 130/255, alpha: 1)
+        self.movieImageView.kf.setImage(with: URL(string: movie.imageUrl))
     }
     
     override func prepareForReuse() {
