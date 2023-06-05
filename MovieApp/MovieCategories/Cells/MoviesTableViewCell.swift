@@ -39,6 +39,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     func configure(title: String, movieList: [Movie]) {
         categoryLabel.text = title
         self.movieList = movieList
+        collectionView.reloadData()
     }
     
     private func createViews() {
@@ -90,7 +91,7 @@ extension MoviesTableViewCell {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as? MovieCollectionViewCell {
-            cell.configure(imageUrl: movieList[indexPath.row].imageUrl)
+            cell.configure(imageUrl: movieList[indexPath.row].imageUrl, id: movieList[indexPath.row].id)
             return cell
         } else {
             return UICollectionViewCell()

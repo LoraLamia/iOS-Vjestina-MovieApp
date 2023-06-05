@@ -42,14 +42,23 @@ class MovieCollectionViewCell: UICollectionViewCell {
     }
     
     private func styleViews() {
-        favoriteIconImageView.image = UIImage(named: "favorite")
         movieImageView.layer.cornerRadius = 10
         movieImageView.layer.masksToBounds = true
         contentView.layer.cornerRadius = 10
     }
     
-    func configure(imageUrl: String) {
+    func configure(imageUrl: String, id: Int) {
         self.movieImageView.kf.setImage(with: URL(string: imageUrl))
+        let savedNumbers = UserDefaults.standard.array(forKey: "favorites") as? [Int]
+        if let savedNumbers = savedNumbers {
+            if savedNumbers.contains(id) {
+                favoriteIconImageView.image = UIImage(named: "favoriteChosen")
+            } else {
+                favoriteIconImageView.image = UIImage(named: "favorite")
+            }
+        } else {
+            favoriteIconImageView.image = UIImage(named: "favorite")
+        }
     }
     
     override func prepareForReuse() {

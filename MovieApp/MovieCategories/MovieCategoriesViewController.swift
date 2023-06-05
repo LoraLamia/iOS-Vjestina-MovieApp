@@ -29,6 +29,11 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
             }
             .store(in: &disposeables)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.categoriesTableView.reloadData()
+    }
     
     init(router: AppRouter, viewModel: MovieCategoriesViewModel) {
         self.viewModel = viewModel
