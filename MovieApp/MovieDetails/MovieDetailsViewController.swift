@@ -272,7 +272,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     @objc func buttonAction(_ sender: UIButton!) {
         favoriteButton.isSelected = !favoriteButton.isSelected
         let userDefaults = UserDefaults.standard
-        var savedNumbers = userDefaults.array(forKey: "favorites") as? [Int]
+        let savedNumbers = userDefaults.array(forKey: "favorites") as? [Int]
         if favoriteButton.isSelected {
             if var savedNumbers = savedNumbers {
                 savedNumbers.append(self.movieDetails.id)

@@ -91,7 +91,7 @@ extension MoviesTableViewCell {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as? MovieCollectionViewCell {
-            cell.configure(imageUrl: movieList[indexPath.row].imageUrl, id: movieList[indexPath.row].id)
+            cell.configure(imageUrl: movieList[indexPath.row].imageUrl, id: movieList[indexPath.row].id, delegate: nil)
             return cell
         } else {
             return UICollectionViewCell()

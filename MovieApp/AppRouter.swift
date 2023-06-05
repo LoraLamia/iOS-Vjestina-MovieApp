@@ -16,7 +16,7 @@ class AppRouter {
     }
     
     func setStartScreen(in window: UIWindow?) {
-        let favoritesViewController = FavoritesViewController(viewModel: FavoritesViewModel())
+        let favoritesViewController = FavoritesViewController(viewModel: FavoritesViewModel(movieUseCase: movieUseCase))
         favoritesNavigationController.tabBarItem = UITabBarItem(
             title: "Favorites",
             image: UIImage(named: "tabFavorites"),
