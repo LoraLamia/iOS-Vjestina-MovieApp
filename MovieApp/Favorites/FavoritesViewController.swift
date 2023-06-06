@@ -1,7 +1,7 @@
 import Combine
 import UIKit
 
-protocol PukiDelegate: AnyObject {
+protocol Delegate: AnyObject {
     
     func refreshData()
 }
@@ -111,7 +111,7 @@ extension FavoritesViewController {
     }
 }
 
-extension FavoritesViewController: PukiDelegate {
+extension FavoritesViewController: Delegate {
     func refreshData() {
         fetchMovies()
     }

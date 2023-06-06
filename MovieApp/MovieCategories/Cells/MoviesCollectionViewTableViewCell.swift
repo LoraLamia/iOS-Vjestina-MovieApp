@@ -1,4 +1,3 @@
-
 import UIKit
 import PureLayout
 import MovieAppData
@@ -8,10 +7,9 @@ protocol MovieCollectionCellDelegate: AnyObject {
     func didSelectMovie(id: Int)
 }
 
-class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class MoviesCollectionViewTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    static let identifier = "CollectionTableViewCell"
-    private var categoryLabel: UILabel!
+    static let identifier = "MoviesCollectionViewTableViewCell"
     private var collectionView: UICollectionView!
     weak var delegate: MovieCollectionCellDelegate?
     private var movieList: [Movie]!
@@ -36,24 +34,17 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(title: String, movieList: [Movie]) {
-        categoryLabel.text = title
+    func configure(movieList: [Movie]) {
         self.movieList = movieList
         collectionView.reloadData()
     }
     
     private func createViews() {
-        categoryLabel = UILabel()
     }
     
     private func layoutViews() {
-        contentView.addSubview(categoryLabel)
         contentView.addSubview(collectionView)
-        categoryLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
-        categoryLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        categoryLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
-        
-        collectionView.autoPinEdge(.top, to: .bottom, of: categoryLabel, withOffset: 16)
+        collectionView.autoPinEdge(toSuperviewEdge: .top)
         collectionView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 20)
         collectionView.autoPinEdge(toSuperviewEdge: .leading)
         collectionView.autoPinEdge(toSuperviewEdge: .trailing)
@@ -61,7 +52,6 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     }
     
     private func styleViews() {
-        categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
         self.selectionStyle = .none
     }
     
@@ -80,7 +70,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
 
 }
 
-extension MoviesTableViewCell {
+extension MoviesCollectionViewTableViewCell {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }

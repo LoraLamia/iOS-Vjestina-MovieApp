@@ -10,6 +10,7 @@ class MovieCategoriesViewModel {
     }
     
     let categoryTitles = ["What's popular", "Free to watch", "Trending"]
+    let movieTypes = [["Streaming", "On TV", "For Rent", "In theaters"], ["Movies", "TV"], ["Today", "This Week"]]
     
     func getCategoryMovies() {
         Task {

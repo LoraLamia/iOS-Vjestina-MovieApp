@@ -54,7 +54,9 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     private func createViews() {
         categoriesTableView = UITableView()
         categoriesTableView.dataSource = self
-        categoriesTableView.register(MoviesTableViewCell.self, forCellReuseIdentifier: MoviesTableViewCell.identifier)
+        categoriesTableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
+        categoriesTableView.register(MovieTypesCollectionViewTableViewCell.self, forCellReuseIdentifier: MovieTypesCollectionViewTableViewCell.identifier)
+        categoriesTableView.register(MoviesCollectionViewTableViewCell.self, forCellReuseIdentifier: MoviesCollectionViewTableViewCell.identifier)
     }
     
     private func layoutViews() {
@@ -69,18 +71,48 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
 }
 
 extension MovieCategoriesViewController {
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.categoryMovies.count
+        viewModel.categoryMovies.count*3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MoviesTableViewCell.identifier, for: indexPath) as? MoviesTableViewCell {
-            cell.configure(title: viewModel.categoryTitles[indexPath.row], movieList: categoryMovies[indexPath.row])
-            cell.delegate = self
-            return cell
+        var index: Int
+        if((indexPath.row + 1) % 3 == 0) {
+            if(indexPath.row == 2) {
+                index = 0
+            } else if(indexPath.row == 5) {
+                index = 1
+            } else {
+                index = 2
+            }
+            if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MoviesCollectionViewTableViewCell.identifier, for: indexPath) as? MoviesCollectionViewTableViewCell {
+                cell.configure(movieList: categoryMovies[index])
+                cell.delegate = self
+                return cell
+            }
+        }
+        if((indexPath.row) % 3 == 0) {
+            if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier, for: indexPath) as? LabelTableViewCell {
+                cell.configure(title: viewModel.categoryTitles[indexPath.row/3])
+                return cell
+            } else {
+                return UITableViewCell()
+            }
         } else {
-            return UITableViewCell()
+            if(indexPath.row == 1) {
+                index = 0
+            } else if(indexPath.row == 4) {
+                index = 1
+            } else {
+                index = 2
+            }
+            if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: MovieTypesCollectionViewTableViewCell.identifier, for: indexPath) as? MovieTypesCollectionViewTableViewCell {
+                cell.configure(movieTypes: viewModel.movieTypes[index])
+                return cell
+            } else {
+                return UITableViewCell()
+            }
         }
     }
 }

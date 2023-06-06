@@ -10,7 +10,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
     private var favoriteButton: UIButton!
     private var movieImageView: UIImageView!
     private var id: Int?
-    private weak var delegate: PukiDelegate?
+    private weak var delegate: Delegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,7 +51,7 @@ class MovieCollectionViewCell: UICollectionViewCell {
         favoriteButton.setImage(UIImage(named: "favoriteChosen"), for: .selected)
     }
     
-    func configure(imageUrl: String, id: Int, delegate: PukiDelegate?) {
+    func configure(imageUrl: String, id: Int, delegate: Delegate?) {
         self.delegate = delegate
         self.id = id
         self.movieImageView.kf.setImage(with: URL(string: imageUrl))
