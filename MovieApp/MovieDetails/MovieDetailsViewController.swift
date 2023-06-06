@@ -1,14 +1,13 @@
-
 import PureLayout
 import UIKit
-import MovieAppData
 import Kingfisher
+import Combine
 
 class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     private var movieImageView: UIImageView!
-    private var starIconImageView: UIImageView!
     private var ratingLabel: UILabel!
+    private var favoriteButton: UIButton!
     private var userScoreLabel: UILabel!
     private var titleLabel: UILabel!
     private var releaseYearLabel: UILabel!
@@ -20,10 +19,12 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     private var collectionView: UICollectionView!
     private var H1StackView: UIStackView!
     private var H3StackView: UIStackView!
-    let movieDetailsModel: MovieDetailsModel!
+    private var viewModel: MovieDetailsViewModel!
+    private var disposeables = Set<AnyCancellable>()
+    private var movieDetails: MovieDetails = MovieDetails()
     
-    init(movieDetailsModel: MovieDetailsModel) {
-        self.movieDetailsModel = movieDetailsModel
+    init(viewModel: MovieDetailsViewModel) {
+        self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -35,6 +36,19 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         super.viewDidLoad()
         buildViews()
         prepareAnimation()
+        
+        viewModel.getMovieDetails()
+        
+        viewModel
+            .$movieDetails
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] movie in
+                guard let self = self else { return }
+                self.movieDetails = movie
+                self.setData()
+                self.checkIfInFavorites()
+            }
+            .store(in: &disposeables)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -97,12 +111,11 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         createViews()
         layoutViews()
         styleViews()
+        addActions()
     }
     
     private func createViews() {
         movieImageView = UIImageView()
-        let url = URL(string: movieDetailsModel.imageUrl)
-        movieImageView.kf.setImage(with: url)
         H1StackView = UIStackView()
         ratingLabel = UILabel()
         titleLabel = UILabel()
@@ -113,8 +126,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         overViewLabel = UILabel()
         descriptionLabel = UILabel()
         H3StackView = UIStackView()
-        let starIconImage = UIImage(named: "starIcon")
-        starIconImageView = UIImageView(image: starIconImage)
+        favoriteButton = UIButton()
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
@@ -162,11 +174,11 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         H3StackView.autoPinEdge(.top, to: .bottom, of: dateLabel, withOffset: 0)
         H3StackView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
         
-        movieImageView.addSubview(starIconImageView)
+        view.addSubview(favoriteButton)
         
-        starIconImageView.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
-        starIconImageView.autoPinEdge(.top, to: .bottom, of: H3StackView, withOffset: 16)
-        starIconImageView.autoSetDimension(.height, toSize: 32)
+        favoriteButton.autoPinEdge(toSuperviewSafeArea: .leading, withInset: 20)
+        favoriteButton.autoPinEdge(.top, to: .bottom, of: H3StackView, withOffset: 16)
+        favoriteButton.autoSetDimension(.height, toSize: 32)
         
         view.addSubview(overViewLabel)
         
@@ -191,37 +203,16 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
     }
     
     private func styleViews() {
-        self.title = "Movie Details"
-        ratingLabel.text = String(movieDetailsModel.rating)
-        userScoreLabel.text = "User score"
+        let favoriteImage = UIImage(named: "favorite")
+        let favoriteChosenSelected = UIImage(named: "favoriteChosen")
+        favoriteButton.setBackgroundImage(favoriteImage, for: .normal)
+        favoriteButton.setBackgroundImage(favoriteChosenSelected, for: .selected)
         
         H1StackView.spacing = 8
-
-        titleLabel.text = movieDetailsModel.name
-        
-        releaseYearLabel.text = "(" + "\(movieDetailsModel.year)" + ")"
-        
-        let stringCategories = movieDetailsModel.categories.map {
-            categorie in "\(categorie)"
-        }.joined(separator: ",")
-        categoriesLabel.text = stringCategories
-        
-        let hours = movieDetailsModel.duration / 60
-        let minutes = movieDetailsModel.duration - hours*60
-        durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
-        
-        let newDateFormat = convertDateFormat(sourceDateString: movieDetailsModel.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
-        dateLabel.text = newDateFormat + " (US)"
-        
-        overViewLabel.text = "Overview"
-        
-        descriptionLabel.text = movieDetailsModel.summary
         
         descriptionLabel.numberOfLines = 0
         
         H3StackView.spacing = 8
-        
-        starIconImageView.contentMode = .scaleAspectFill
         
         movieImageView.contentMode = .scaleAspectFill
         movieImageView.clipsToBounds = true
@@ -251,6 +242,67 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDataSource, 
         overViewLabel.textColor = .black
     }
     
+    private func setData() {
+        self.title = "Movie Details"
+        userScoreLabel.text = "User score"
+        ratingLabel.text = String(movieDetails.rating)
+        titleLabel.text = movieDetails.name
+        releaseYearLabel.text = "(" + "\(movieDetails.year)" + ")"
+        let stringCategories = movieDetails.categories.map {
+            categorie in "\(categorie)"
+        }.joined(separator: ",")
+        categoriesLabel.text = stringCategories
+        let hours = movieDetails.duration / 60
+        let minutes = movieDetails.duration - hours*60
+        durationLabel.text = "\(hours)" + "h " + "\(minutes)" + "m"
+        
+        let newDateFormat = convertDateFormat(sourceDateString: movieDetails.releaseDate, sourceDateFormat: "yyyy-MM-dd", destinationFormat: "dd/MM/yyyy")
+        dateLabel.text = newDateFormat + " (US)"
+        overViewLabel.text = "Overview"
+        descriptionLabel.text = movieDetails.summary
+        let url = URL(string: movieDetails.imageUrl)
+        movieImageView.kf.setImage(with: url)
+        collectionView.reloadData()
+    }
+    
+    private func addActions() {
+        favoriteButton.addTarget(self, action: #selector(buttonAction(_:)), for: .touchUpInside)
+    }
+    
+    @objc func buttonAction(_ sender: UIButton!) {
+        favoriteButton.isSelected = !favoriteButton.isSelected
+        let userDefaults = UserDefaults.standard
+        let savedNumbers = userDefaults.array(forKey: "favorites") as? [Int]
+        if favoriteButton.isSelected {
+            if var savedNumbers = savedNumbers {
+                savedNumbers.append(self.movieDetails.id)
+                userDefaults.set(savedNumbers, forKey: "favorites")
+            } else {
+                let ids = [self.movieDetails.id]
+                userDefaults.set(ids, forKey: "favorites")
+            }
+        } else {
+            if var savedNumbers = savedNumbers {
+                let index = savedNumbers.firstIndex(of: self.movieDetails.id)
+                if let index = index {
+                    savedNumbers.remove(at: index)
+                    userDefaults.set(savedNumbers, forKey: "favorites")
+                }
+            }
+        }
+    }
+    
+    private func checkIfInFavorites() {
+        let userDefaults = UserDefaults.standard
+        let savedNumbers = userDefaults.array(forKey: "favorites") as? [Int]
+
+        if let savedNumbers = savedNumbers {
+            if savedNumbers.contains(self.movieDetails.id) {
+                favoriteButton.isSelected = true
+            }
+        }
+    }
+    
     private func convertDateFormat(sourceDateString : String, sourceDateFormat : String, destinationFormat : String) -> String{
 
         let dateFormatter = DateFormatter();
@@ -272,14 +324,14 @@ extension MovieDetailsViewController {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        movieDetailsModel.crewMembers.count
+        viewModel.movieDetails.crewMembers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
             for: indexPath) as? CrewCollectionViewCell {
-            let crewMember = movieDetailsModel.crewMembers[indexPath.row]
+            let crewMember = viewModel.movieDetails.crewMembers[indexPath.row]
             cell.configure(name: crewMember.name, position: crewMember.role)
             return cell
         } else {

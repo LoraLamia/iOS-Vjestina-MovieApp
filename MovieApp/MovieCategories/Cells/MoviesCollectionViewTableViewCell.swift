@@ -1,20 +1,18 @@
-
 import UIKit
 import PureLayout
 import MovieAppData
 import Kingfisher
 
 protocol MovieCollectionCellDelegate: AnyObject {
-    func didSelectMovie(movieDetails: MovieDetailsModel)
+    func didSelectMovie(id: Int)
 }
 
-class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
+class MoviesCollectionViewTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    static let identifier = "CollectionTableViewCell"
-    private var categoryLabel: UILabel!
+    static let identifier = "MoviesCollectionViewTableViewCell"
     private var collectionView: UICollectionView!
     weak var delegate: MovieCollectionCellDelegate?
-    private var movieList: [MovieModel]!
+    private var movieList: [Movie]!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,23 +34,17 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(title: String, movieList: [MovieModel]) {
-        categoryLabel.text = title
+    func configure(movieList: [Movie]) {
         self.movieList = movieList
+        collectionView.reloadData()
     }
     
     private func createViews() {
-        categoryLabel = UILabel()
     }
     
     private func layoutViews() {
-        contentView.addSubview(categoryLabel)
         contentView.addSubview(collectionView)
-        categoryLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 20)
-        categoryLabel.autoPinEdge(toSuperviewEdge: .leading, withInset: 16)
-        categoryLabel.autoPinEdge(toSuperviewEdge: .trailing, withInset: 16)
-        
-        collectionView.autoPinEdge(.top, to: .bottom, of: categoryLabel, withOffset: 16)
+        collectionView.autoPinEdge(toSuperviewEdge: .top)
         collectionView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 20)
         collectionView.autoPinEdge(toSuperviewEdge: .leading)
         collectionView.autoPinEdge(toSuperviewEdge: .trailing)
@@ -60,7 +52,6 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
     }
     
     private func styleViews() {
-        categoryLabel.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight(rawValue: 800))
         self.selectionStyle = .none
     }
     
@@ -79,7 +70,7 @@ class MoviesTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollec
 
 }
 
-extension MoviesTableViewCell {
+extension MoviesCollectionViewTableViewCell {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }
@@ -90,7 +81,7 @@ extension MoviesTableViewCell {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieCollectionViewCell.identifier, for: indexPath) as? MovieCollectionViewCell {
-            KF.url(URL(string: movieList[indexPath.row].imageUrl)).set(to: cell.movieImageView)
+            cell.configure(imageUrl: movieList[indexPath.row].imageUrl, id: movieList[indexPath.row].id, delegate: nil)
             return cell
         } else {
             return UICollectionViewCell()
@@ -98,7 +89,6 @@ extension MoviesTableViewCell {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let details = MovieUseCase().getDetails(id: movieList[indexPath.row].id) else { return }
-        delegate?.didSelectMovie(movieDetails: details)
+        delegate?.didSelectMovie(id: movieList[indexPath.row].id)
     }
 }
