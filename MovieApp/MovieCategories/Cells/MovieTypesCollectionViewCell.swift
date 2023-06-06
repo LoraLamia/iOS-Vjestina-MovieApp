@@ -31,11 +31,10 @@ class MovieTypesCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(underlineView)
         
         typeLabel.autoPinEdge(toSuperviewEdge: .top, withInset: 8)
-        typeLabel.autoPinEdge(toSuperviewEdge: .leading)
-        typeLabel.autoPinEdge(toSuperviewEdge: .trailing)
+        typeLabel.autoAlignAxis(toSuperviewAxis: .vertical)
         
-        underlineView.autoPinEdge(toSuperviewEdge: .trailing)
-        underlineView.autoPinEdge(toSuperviewEdge: .leading)
+        underlineView.autoPinEdge(.leading, to: .leading, of: typeLabel)
+        underlineView.autoPinEdge(.trailing, to: .trailing, of: typeLabel)
         underlineView.autoPinEdge(.top, to: .bottom, of: typeLabel, withOffset: 4)
         underlineView.autoSetDimension(.height, toSize: 2)
         underlineView.autoPinEdge(toSuperviewEdge: .bottom, withInset: 14)
