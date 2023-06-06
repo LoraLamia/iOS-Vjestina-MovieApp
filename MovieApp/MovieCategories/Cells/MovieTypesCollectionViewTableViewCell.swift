@@ -41,6 +41,7 @@ class MovieTypesCollectionViewTableViewCell: UITableViewCell, UICollectionViewDa
     
     func configure(movieTypes: [String]) {
         self.movieTypes = movieTypes
+        movieTypesCollectionView.reloadData()
     }
 
 }

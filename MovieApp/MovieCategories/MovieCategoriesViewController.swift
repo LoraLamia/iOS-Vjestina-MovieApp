@@ -79,7 +79,7 @@ extension MovieCategoriesViewController {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var index: Int
-        if((indexPath.row + 1) % 3 == 0) {
+        if((indexPath.row + 1) % 3 == 0) { // Movie collection
             if(indexPath.row == 2) {
                 index = 0
             } else if(indexPath.row == 5) {
@@ -93,14 +93,15 @@ extension MovieCategoriesViewController {
                 return cell
             }
         }
-        if((indexPath.row) % 3 == 0) {
+        
+        if((indexPath.row) % 3 == 0) { // Title
             if let cell = categoriesTableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier, for: indexPath) as? LabelTableViewCell {
                 cell.configure(title: viewModel.categoryTitles[indexPath.row/3])
                 return cell
             } else {
                 return UITableViewCell()
             }
-        } else {
+        } else { // Categories
             if(indexPath.row == 1) {
                 index = 0
             } else if(indexPath.row == 4) {
