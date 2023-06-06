@@ -11,6 +11,7 @@ class MovieCategoriesViewController: UIViewController, UITableViewDataSource {
     private var viewModel: MovieCategoriesViewModel!
     private var disposeables = Set<AnyCancellable>()
     private var categoryMovies: [[Movie]] = []
+//    private var streamingMovies: [Movie] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()

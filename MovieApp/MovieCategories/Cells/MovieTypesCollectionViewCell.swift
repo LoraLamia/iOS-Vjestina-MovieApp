@@ -52,6 +52,8 @@ class MovieTypesCollectionViewCell: UICollectionViewCell {
             self.typeLabel.font = UIFont.boldSystemFont(ofSize: 14)
             self.typeLabel.textColor = .black
             self.underlineView.backgroundColor = .black
+        } else {
+            styleViews()
         }
         self.typeLabel.text = type
     }

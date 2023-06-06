@@ -5,6 +5,7 @@ class MovieTypesCollectionViewTableViewCell: UITableViewCell, UICollectionViewDa
     static let identifier = "MovieTypesCollectionViewTableViewCell"
     private var movieTypesCollectionView: UICollectionView!
     private var movieTypes: [String]!
+    var selectedIndex: IndexPath? = nil
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -55,7 +56,12 @@ extension MovieTypesCollectionViewTableViewCell {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MovieTypesCollectionViewCell.identifier, for: indexPath) as? MovieTypesCollectionViewCell {
-            cell.configure(type: movieTypes[indexPath.row], selected: false)
+            if(indexPath == self.selectedIndex) {
+                cell.configure(type: movieTypes[indexPath.row], selected: true)
+            } else {
+                cell.configure(type: movieTypes[indexPath.row], selected: false)
+            }
+            
             return cell
         } else {
             return UICollectionViewCell()
@@ -63,8 +69,8 @@ extension MovieTypesCollectionViewTableViewCell {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = self.movieTypesCollectionView.cellForItem(at: indexPath) as? MovieTypesCollectionViewCell
-        cell?.configure(type: movieTypes[indexPath.row], selected: true)
+        self.selectedIndex = indexPath
+        self.movieTypesCollectionView.reloadData()
     }
 }
 

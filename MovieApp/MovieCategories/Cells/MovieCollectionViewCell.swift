@@ -105,3 +105,4 @@ class MovieCollectionViewCell: UICollectionViewCell {
         delegate?.refreshData()
     }
 }
+
