@@ -61,6 +61,8 @@ class FavoritesViewController: UIViewController, UICollectionViewDelegate, UICol
     }
     
     private func styleViews() {
+        view.backgroundColor = .white
+        self.title = "Favorites"
     }
     
     private func fetchMovies() {
