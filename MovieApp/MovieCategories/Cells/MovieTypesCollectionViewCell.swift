@@ -47,7 +47,12 @@ class MovieTypesCollectionViewCell: UICollectionViewCell {
         underlineView.backgroundColor = .black.withAlphaComponent(0)
     }
     
-    func configure(type: String) {
+    func configure(type: String, selected: Bool) {
+        if selected {
+            self.typeLabel.font = UIFont.boldSystemFont(ofSize: 14)
+            self.typeLabel.textColor = .black
+            self.underlineView.backgroundColor = .black
+        }
         self.typeLabel.text = type
     }
 }
